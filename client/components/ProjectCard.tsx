@@ -1,28 +1,46 @@
+import { Box } from '@chakra-ui/react';
 import NextImg from 'next/image';
 import React from 'react';
+import { FlipCard, FlipCardProps } from './FlipCard';
+import styles from './FlipCard.module.css'
 
-export type Tag = 'js' | 'ts' | 'html' | 'css' | 'react' | 'php';
+export type Tag = 'JavaScript' | 'TypeScript' | 'HTML' | 'CSS' | 'React' | 'php' | 'GDScript' | 'NextJS' | 'C++';
 
-interface ProjectCardProps {
+export interface ProjectCardProps extends FlipCardProps {
     tags?: Tag[];
+    iconSize?: number;
 };
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({}) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({children, tags, iconSize = 30, ...props}) => {
+
+    let className = '';
+
+    tags?.forEach((tag, count) => {
+        if (count < tags.length - 1) {
+            className += (tag + ' ');
+        } else {
+            className += tag;
+        }
+    });
+
+    className += ' projectCard';
+
+    console.log('className: ', className);
 
     return (
-        // <FlipCard>
-        //     {children}
-        //     {tags.map((tag, key) => (
-        //         <Box position="absolute" display="inline-block" key={key}>
-        //             <NextImg
-        //                 src={'/' + tag + '.png'}
-        //                 width={15}
-        //                 height={15}
-        //             />
-        //         </Box>
-        //     ))}
-        // </FlipCard>
-
-        <NextImg src="/css.png" height={48} width={48}/>
+        <FlipCard {...props} className={className}>
+            {children}
+            <Box className={styles.tagContainer}>
+                {tags?.map((tag, key) => ( 
+                    <NextImg
+                        src={'/static/' + tag + '.png'}
+                        width={iconSize}
+                        height={iconSize}
+                        key={key}
+                        className={styles.tagImage}
+                    />
+                ))}
+            </Box>
+        </FlipCard>
     );
 };

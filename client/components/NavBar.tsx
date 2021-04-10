@@ -76,12 +76,13 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     const linkProps: LinkProps = {
         mx: 2,
         pb: "3px",
-        fontSize: "lg",
+        fontSize: "x-large",
         onMouseEnter: animateBar,
         onTouchStart: animateBar,
         _hover: {textDecoration: "none"},
         _active: {textDecoration: "none", opacity: 0.3},
         onClick: setAsCurrent,
+        color: "gray.600",
     }
 
     return (
@@ -91,7 +92,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
                     <Link id="homeLink" {...linkProps}>Home</ Link>
                 </NextLink>
                 <NextLink href="/projects">
-                    <Link id="projectsLink" {...linkProps}>Project</Link>
+                    <Link id="projectsLink" {...linkProps}>Projects</Link>
                 </NextLink>
                 <NextLink href="/contact">
                     <Link id="contactLink" {...linkProps}>Contact</Link>
