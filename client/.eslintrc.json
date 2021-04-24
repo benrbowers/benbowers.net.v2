@@ -25,21 +25,23 @@
     ],
     "rules": {
         "indent": [
-            "error",
+            "warn",
             "tab"
         ],
         "linebreak-style": [
-            "error",
+            "warn",
             "unix"
         ],
         "quotes": [
-            "error",
+            "warn",
             "single"
         ],
         "semi": [
-            "error",
+            "warn",
             "always"
         ],
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "react/no-unescaped-entities": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off"
     }
 }

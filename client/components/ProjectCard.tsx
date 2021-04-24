@@ -1,46 +1,69 @@
 import { Box } from '@chakra-ui/react';
 import NextImg from 'next/image';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { FlipCard, FlipCardProps } from './FlipCard';
-import styles from './FlipCard.module.css'
-
-export type Tag = 'JavaScript' | 'TypeScript' | 'HTML' | 'CSS' | 'React' | 'php' | 'GDScript' | 'NextJS' | 'C++';
+import styled from 'styled-components';
+import { Tag } from '../types/Tag';
 
 export interface ProjectCardProps extends FlipCardProps {
-    tags?: Tag[];
-    iconSize?: number;
-};
+	tags?: Tag[];
+	iconSize?: number;
+	innerStyle?: React.CSSProperties;
+}
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({children, tags, iconSize = 30, ...props}) => {
+const TagContainer = styled(Box)`
+	position: absolute;
+	display: inline-block;
+	bottom: 0;
+	backface-visibility: hidden;
+	transform-style: preserve-3d;
+	margin: 10px;
 
-    let className = '';
+	& > div {
+		vertical-align: middle;
+	}
+`;
 
-    tags?.forEach((tag, count) => {
-        if (count < tags.length - 1) {
-            className += (tag + ' ');
-        } else {
-            className += tag;
-        }
-    });
+const StyledFlipCard = styled(FlipCard)`
+	&.reorder {
+		transition: transform 0.5s;
+	}
+` as typeof FlipCard;
 
-    className += ' projectCard';
+export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
+	({ children, tags, iconSize = 30, innerStyle, ...props }, ref) => {
+		let className = '';
 
-    console.log('className: ', className);
+		tags?.forEach((tag, count) => {
+			if (count < tags.length - 1) {
+				className += tag + ' ';
+			} else {
+				className += tag;
+			}
+		});
 
-    return (
-        <FlipCard {...props} className={className}>
-            {children}
-            <Box className={styles.tagContainer}>
-                {tags?.map((tag, key) => ( 
-                    <NextImg
-                        src={'/static/' + tag + '.png'}
-                        width={iconSize}
-                        height={iconSize}
-                        key={key}
-                        className={styles.tagImage}
-                    />
-                ))}
-            </Box>
-        </FlipCard>
-    );
-};
+		className += ' projectCard';
+
+		return (
+			<StyledFlipCard
+				innerStyle={innerStyle}
+				className={className}
+				ref={ref}
+				{...props}
+			>
+				{children}
+				<TagContainer>
+					{tags?.map((tag, key) => (
+						<NextImg
+							src={'/static/' + tag + '.png'}
+							width={iconSize}
+							height={iconSize}
+							key={key}
+						/>
+					))}
+				</TagContainer>
+			</StyledFlipCard>
+		);
+	}
+);
+ProjectCard.displayName = 'ProjectCard';

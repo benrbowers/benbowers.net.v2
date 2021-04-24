@@ -1,70 +1,72 @@
 import { Box, BoxProps } from '@chakra-ui/react';
-import React, { MouseEvent, TouchEvent } from 'react';
-import styles from './FlipCard.module.css';
-import { keyframes } from 'styled-components';
+import React, { useState, forwardRef } from 'react';
+import styled from 'styled-components';
+import { FlipCardInner } from './FlipCardInner';
 
 export interface FlipCardProps extends BoxProps {
 	flipDuration?: number; // Duration of flip in seconds
 	doesFlipOnHover?: boolean; // Whether or not the note should flip on hover
 	doesFlipOnClick?: boolean; // Whether or not the note should flip on click
 	doesFlipOnTap?: boolean; // Whether or not the note should flip
+	innerStyle?: React.CSSProperties;
 }
 
-export const FlipCard: React.FC<FlipCardProps> = ({
-	flipDuration = 1,
-	doesFlipOnHover = false,
-	doesFlipOnClick = false,
-	doesFlipOnTap = false,
-	children,
-	className,
-	...props
-}) => {
-	const flipOnEnter = (e: MouseEvent<HTMLDivElement>) => {
-		const flipCardInner = e.currentTarget.children[0] as HTMLDivElement;
-		flipCardInner.style.animation =
-			styles.flipF2B + ' ' + flipDuration + 's forwards';
-	};
+// The outer most flip card container. Has perspective
+// so its children appear to "pop out"
+const FlipCardOuter = styled(Box)`
+	position: relative;
+	perspective: 600px;
+` as typeof Box;
 
-	const flipOnLeave = (e: MouseEvent<HTMLDivElement>) => {
-		const flipCardInner = e.currentTarget.children[0] as HTMLDivElement;
-		flipCardInner.style.animation =
-			styles.flipB2F + ' ' + flipDuration + 's forwards';
-	};
+export const FlipCard = forwardRef<HTMLDivElement, FlipCardProps>(
+	(
+		{
+			flipDuration = 1,
+			doesFlipOnHover = false,
+			doesFlipOnClick = false,
+			doesFlipOnTap = false,
+			innerStyle,
+			children,
+			...props
+		},
+		ref
+	) => {
+		const [flipped, setFlipped] = useState(undefined as boolean | undefined);
 
-	const flipOnClick = (e: MouseEvent<HTMLDivElement>) => {
-		const flipCardInner = e.currentTarget.children[0] as HTMLDivElement;
+		const flipOnEnter = () => {
+			setFlipped(true);
+		};
 
-		if (flipCardInner.style.animation.includes(styles.flipF2B)) {
-			flipCardInner.style.animation =
-				styles.flipB2F + ' ' + flipDuration + 's forwards';
-		} else {
-			flipCardInner.style.animation =
-				styles.flipF2B + ' ' + flipDuration + 's forwards';
-		}
-	};
+		const flipOnLeave = () => {
+			setFlipped(false);
+		};
 
-	const flipOnTap = (e: TouchEvent<HTMLDivElement>) => {
-		const flipCardInner = e.currentTarget.children[0] as HTMLDivElement;
+		const flipOnClick = () => {
+			setFlipped(!flipped);
+		};
 
-		if (flipCardInner.style.animation.includes(styles.flipF2B)) {
-			flipCardInner.style.animation =
-				styles.flipB2F + ' ' + flipDuration + 's forwards';
-		} else {
-			flipCardInner.style.animation =
-				styles.flipF2B + ' ' + flipDuration + 's forwards';
-		}
-	};
+		const flipOnTap = () => {
+			setFlipped(!flipped);
+		};
 
-	return (
-		<Box
-			{...props}
-			className={styles.flipCard + ' ' + className}
-			onClick={doesFlipOnClick ? flipOnClick : undefined}
-			onMouseEnter={doesFlipOnHover ? flipOnEnter : undefined}
-			onMouseLeave={doesFlipOnHover ? flipOnLeave : undefined}
-			onTouchStart={doesFlipOnTap ? flipOnTap : undefined}
-		>
-			<Box className={styles.flipCardInner}>{children}</Box>
-		</Box>
-	);
-};
+		return (
+			<FlipCardOuter
+				{...props}
+				onClick={doesFlipOnClick ? flipOnClick : undefined}
+				onMouseEnter={doesFlipOnHover ? flipOnEnter : undefined}
+				onMouseLeave={doesFlipOnHover ? flipOnLeave : undefined}
+				onTouchStart={doesFlipOnTap ? flipOnTap : undefined}
+				ref={ref}
+			>
+				<FlipCardInner
+					innerStyle={innerStyle}
+					flipDuration={flipDuration}
+					flipped={flipped}
+				>
+					{children}
+				</FlipCardInner>
+			</FlipCardOuter>
+		);
+	}
+);
+FlipCard.displayName = 'FlipCard';

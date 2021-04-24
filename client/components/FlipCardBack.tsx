@@ -1,15 +1,14 @@
-import { Box, BoxProps } from '@chakra-ui/layout';
-import React from 'react'
-import styles from './FlipCard.module.css'
+import { BoxProps } from '@chakra-ui/layout';
+import React from 'react';
+import styled from 'styled-components';
+import { FlipCardFront } from './FlipCardFront';
 
-interface FlipCardBackProps extends BoxProps {
+type FlipCardBackProps = BoxProps;
 
-}
+const StyledBox = styled(FlipCardFront)`
+	transform: rotateY(180deg);
+`;
 
 export const FlipCardBack: React.FC<FlipCardBackProps> = (props) => {
-        return (
-            <Box {...props} className={styles.flipCardBack}>
-                {props.children}
-            </Box>
-        );
-}
+	return <StyledBox {...props}>{props.children}</StyledBox>;
+};
