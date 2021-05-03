@@ -7,9 +7,9 @@ import { Settings } from './Settings';
 
 export const Layout: React.FC = ({ children }) => {
 	return (
-		<Box>
+		<Box pos="relative">
 			<Settings animationDuration={0.6} />
-			<NavBar width="fit-content" mx="auto" />
+			<NavBar width="fit-content" mx="auto" bgColor="whiteAlpha.700" />
 			{children}
 		</Box>
 	);

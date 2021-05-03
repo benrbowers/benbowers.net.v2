@@ -1,6 +1,6 @@
 import { IconButton, ButtonProps } from '@chakra-ui/react';
 import { SettingsIcon } from '@chakra-ui/icons';
-import React, { useState } from 'react';
+import React from 'react';
 
 interface SettingsButtonProps extends ButtonProps {
 	animationDuration?: number;

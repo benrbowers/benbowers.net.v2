@@ -13,6 +13,9 @@ const StyledBox = styled(Box)`
 	transform-style: preserve-3d;
 `;
 
-export const FlipCardFront: React.FC<FlipCardFrontProps> = ({ children, ...props }) => {
+export const FlipCardFront: React.FC<FlipCardFrontProps> = ({
+	children,
+	...props
+}) => {
 	return <StyledBox {...props}>{children}</StyledBox>;
 };

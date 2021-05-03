@@ -1,8 +1,10 @@
 import { Box, Button, ButtonProps, Text } from '@chakra-ui/react';
+import Theme from '@chakra-ui/theme';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Tag } from '../types/Tag';
 import styled from 'styled-components';
+import { ThemeContext } from '../themes/theme';
 
 export interface TagButtonProps extends ButtonProps {
 	tag: Tag;
@@ -18,7 +20,7 @@ const StyledButton = styled(Button)`
 
 	&:active {
 		position: relative;
-		bottom: 0.5em;
+		bottom: 0.4em;
 	}
 ` as typeof Button;
 
@@ -45,92 +47,25 @@ export const TagButton: React.FC<TagButtonProps> = ({
 }) => {
 	const [selected, setSelected] = useState(false);
 
-	const selectCards = () => {
-		const allCards = document.querySelectorAll(
-			'.projectCard'
-		) as NodeListOf<HTMLDivElement>; // All project cards on the page
-		const selectedCards = document.querySelectorAll(
-			'.' + tag
-		) as NodeListOf<HTMLDivElement>; // Cards that have the selected tag
+	const { colorTheme } = useContext(ThemeContext);
 
-		// Get the card positions before reorder
-		const oldRects: DOMRect[] = [];
-		selectedCards.forEach((card) => {
-			oldRects.push(card.getBoundingClientRect());
-		});
-
-		if (selected) {
-			// Show all non-selected cards
-			allCards.forEach((card) => {
-				if (!card.className.includes(tag)) {
-					const cardInner = card.children[0] as HTMLDivElement;
-					cardInner.style.animationName = 'none';
-
-					card.style.display = 'inline-block';
-
-					card.animate([{ opacity: 0.0 }, { opacity: 1.0 }], {
-						duration: 600,
-						easing: 'ease-in',
-					});
-
-					const resetAnimMouseEnter = () => {
-						cardInner.style.animationName = '';
-						card.removeEventListener('mouseenter', resetAnimMouseEnter);
-					};
-					const resetAnimTap = () => {
-						cardInner.style.animationName = '';
-						card.removeEventListener('touchstart', resetAnimTap);
-					};
-
-					card.addEventListener('mouseenter', resetAnimMouseEnter);
-					card.addEventListener('touchstart', resetAnimTap);
-				}
-			});
-
-			setSelected(false);
-		} else {
-			// Hide all non-selected cards
-			allCards.forEach((card) => {
-				if (!card.className.includes(tag)) {
-					card.style.display = 'none';
-				}
-			});
-
-			setSelected(true);
-		}
-
-		// Get the card positions after reorder
-		const newRects: DOMRect[] = [];
-		selectedCards.forEach((card) => {
-			newRects.push(card.getBoundingClientRect());
-		});
-
-		selectedCards.forEach((card, i) => {
-			const deltaX = oldRects[i].left - newRects[i].left + 'px';
-			const deltaY = oldRects[i].bottom - newRects[i].bottom + 'px';
-			//console.log(deltaX);
-			card.animate(
-				[
-					{ transform: `translate(${deltaX}, ${deltaY})` },
-					{ transform: 'translate(0)' },
-				],
-				{
-					duration: 500,
-					easing: 'ease-out',
-				}
-			);
-		});
-	};
+	const chakraColors = Theme.colors;
 
 	return (
 		<StyledButton
 			borderRadius={iconSize / 2 + 'px'}
 			bgColor={selected ? 'gray.600' : 'gray.400'}
 			_hover={{ opacity: 1 }}
+			_focus={{
+				boxShadow:
+					'0px 0px 0px 3px ' +
+					chakraColors[colorTheme as keyof typeof chakraColors]['300'],
+			}}
 			onClick={() => {
 				selectTagCallback(tag, !selected);
 				setSelected(!selected);
 			}}
+			outlineColor={colorTheme + '.400'}
 			{...props}
 		>
 			<ImageContainer>
