@@ -1,0 +1,3 @@
+[submodule "client/public/scripts/bouncejs"]
+	path = client/public/scripts/bouncejs
+	url = https://github.com/benrbowers/bouncejs.git
