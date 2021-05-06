@@ -3,7 +3,8 @@ import { Ball } from './bouncejs/Ball.js';
 import { Vector2 } from './bouncejs/Vector2.js';
 import chakraColors from './chakraColors.js';
 
-let canvas = document.querySelector('canvas');
+const canvas = document.querySelector('canvas');
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
@@ -15,10 +16,7 @@ if (document.cookie) {
 }
 console.log('colorTheme: ', color);
 
-let engine = new Engine(
-	canvas,
-	getComputedStyle(document.body).backgroundColor
-);
+let engine = new Engine(canvas, 'white');
 
 const navBallImgs = ['GitHub-Mark-Light-120px-plus.png', 'In-White-128.png'];
 const navBalls = [];

@@ -1,24 +1,23 @@
-import { Layout } from '../components/Layout';
-import React, { useContext } from 'react';
-import Head from 'next/head';
-import styled from 'styled-components';
 import { Flex, Heading, Text } from '@chakra-ui/react';
-import { ThemeContext } from '../themes/theme';
 import Theme from '@chakra-ui/theme';
-
-const Canvas = styled.canvas`
-	position: fixed;
-	z-index: -100;
-`;
+import Head from 'next/head';
+import React, { useContext } from 'react';
+import { Layout } from '../components/Layout';
+import { ThemeContext } from '../themes/theme';
 
 const Index = () => {
 	const { colorTheme } = useContext(ThemeContext);
+
 	return (
 		<>
 			<Head>
 				<script type="module" src="/scripts/navBalls.js"></script>
 			</Head>
-			<Canvas></Canvas>
+			<canvas
+				width={0}
+				height={0}
+				style={{ position: 'fixed', zIndex: -1 }}
+			></canvas>
 			<Layout>
 				<Flex
 					flexDir="column"

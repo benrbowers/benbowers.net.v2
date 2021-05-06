@@ -1,21 +1,10 @@
-import {
-	Box,
-	BoxProps,
-	Checkbox,
-	CheckboxProps,
-	Heading,
-	Input,
-	Stack,
-} from '@chakra-ui/react';
+import { Box, BoxProps, Heading, Input } from '@chakra-ui/react';
 import React from 'react';
 import { ThemeContext } from '../themes/theme';
 
 type SettingsMenuProps = BoxProps;
 
 export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
-	const checkboxProps: CheckboxProps = {
-		color: 'gray.600',
-	};
 	return (
 		<Box
 			h="100%"
@@ -34,16 +23,6 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
 				)}
 			</ThemeContext.Consumer>
 			<hr />
-			<br />
-			<Heading fontSize="large" color="gray.600">
-				Balls:
-			</Heading>
-			<Stack className="ballSettings">
-				<Checkbox {...checkboxProps}>GitHub</Checkbox>
-				<Checkbox {...checkboxProps}>Resume</Checkbox>
-				<Checkbox {...checkboxProps}>Projects</Checkbox>
-				<Checkbox {...checkboxProps}>LinkedIn</Checkbox>
-			</Stack>
 			<br />
 			<Heading fontSize="large" color="gray.600">
 				Color Theme:
