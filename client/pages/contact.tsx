@@ -8,7 +8,7 @@ const Contact = () => (
 		<Button
 			onClick={() => {
 				axios
-					.post('/api/hello', { banana: 'banana' })
+					.post('/api/mail', { banana: 'banana' })
 					.then((response) => {
 						console.log(response);
 					})
