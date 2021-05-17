@@ -11,6 +11,10 @@ const Index = () => {
 	return (
 		<>
 			<Head>
+				<meta
+					name="google-site-verification"
+					content="JqTop4MmVFuGkOXxeKkOBcflDqHbhmvHdcnJoN75kdo"
+				/>
 				<script type="module" src="/scripts/navBalls.js"></script>
 			</Head>
 			<canvas
