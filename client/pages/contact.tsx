@@ -1,17 +1,9 @@
-import {
-	Button,
-	FormControl,
-	FormErrorMessage,
-	FormHelperText,
-	FormLabel,
-	Input,
-	Textarea,
-} from '@chakra-ui/react';
-import React from 'react';
-import { Layout } from '../components/Layout';
+import { Button } from '@chakra-ui/react';
 import axios from 'axios';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
+import React from 'react';
 import { InputField } from '../components/InputField';
+import { Layout } from '../components/Layout';
 
 const Contact = () => (
 	<Layout>
