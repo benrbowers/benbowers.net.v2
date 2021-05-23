@@ -16,8 +16,8 @@ export default (req: VercelRequest, res: VercelResponse) => {
 	const message = {
 		from: 'me@benbowers.net',
 		to: 'me@benbowers.net',
-		subject: 'From: ' + req.body.data.email,
-		text: req.body.data.message,
+		subject: 'From: ' + req.body.email,
+		text: req.body.message,
 	};
 
 	transporter.sendMail(message, (err, info) => {
