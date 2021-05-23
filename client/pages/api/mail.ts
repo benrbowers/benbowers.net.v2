@@ -16,9 +16,8 @@ export default (req: VercelRequest, res: VercelResponse) => {
 	const message = {
 		from: 'me@benbowers.net',
 		to: 'me@benbowers.net',
-		subject: 'NextJS + Vercel + GMail test',
-		text: 'This is the text body',
-		html: '<p>This is the HTML body</p>',
+		subject: 'From: ' + req.body.data.email,
+		text: req.body.data.message,
 	};
 
 	transporter.sendMail(message, (err, info) => {
