@@ -6,6 +6,6 @@ interface ThemeContextTypes {
 }
 
 export const ThemeContext = createContext<ThemeContextTypes>({
-	colorTheme: 'teal',
+	colorTheme: 'cyan',
 	changeColor: () => {},
 });

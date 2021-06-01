@@ -14,7 +14,7 @@ const Contact = () => (
 				axios
 					.post('/api/mail', { email: values.email, message: values.message })
 					.then((response) => {
-						console.log(response.data.message);
+						console.log(response);
 						actions.setSubmitting(false);
 					})
 					.catch((error) => {

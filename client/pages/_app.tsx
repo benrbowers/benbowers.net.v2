@@ -5,8 +5,8 @@ import { ThemeContext } from '../themes/theme';
 import { CookiesProvider, useCookies } from 'react-cookie';
 
 function MyApp({ Component, pageProps }: AppProps) {
-	const [colorTheme, setColorTheme] = useState('teal');
 	const [cookies, setCookie] = useCookies(['colorTheme']);
+	const [colorTheme, setColorTheme] = useState('cyan');
 
 	useEffect(() => {
 		if (cookies.colorTheme && cookies.colorTheme !== colorTheme) {

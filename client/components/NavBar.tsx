@@ -77,7 +77,7 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
 	const linkProps: LinkProps = {
 		mx: 2,
 		pb: '3px',
-		fontSize: 'xx-large',
+		fontSize: ['x-large', 'xx-large'],
 		onMouseEnter: setAsTemp,
 		onTouchStart: setAsTemp,
 		_hover: { textDecoration: 'none' },
