@@ -12,7 +12,7 @@ import {
 	MenuList,
 	MenuOptionGroup,
 } from '@chakra-ui/react';
-import React, { MouseEvent, useContext } from 'react';
+import React, { MouseEvent, useContext, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { ThemeContext } from '../themes/theme';
 
@@ -21,6 +21,7 @@ type SettingsMenuProps = BoxProps;
 export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
 	const { colorTheme, changeColor } = useContext(ThemeContext);
 	const [cookies] = useCookies(['colorTheme']);
+	useEffect(() => {}, [cookies]);
 
 	const setTheme = (e: MouseEvent<HTMLButtonElement>) => {
 		changeColor(e.currentTarget.value);
