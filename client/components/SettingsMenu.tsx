@@ -12,7 +12,7 @@ import {
 	MenuList,
 	MenuOptionGroup,
 } from '@chakra-ui/react';
-import React, { MouseEvent, useContext, useEffect } from 'react';
+import React, { MouseEvent, useContext, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { ThemeContext } from '../themes/theme';
 
@@ -21,7 +21,15 @@ type SettingsMenuProps = BoxProps;
 export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
 	const { colorTheme, changeColor } = useContext(ThemeContext);
 	const [cookies] = useCookies(['colorTheme']);
-	useEffect(() => {}, [cookies]);
+	const [menuDefValue, setMenuDefValue] = useState(
+		undefined as undefined | string
+	);
+
+	useEffect(() => {
+		if (cookies.colorTheme) {
+			setMenuDefValue(cookies.colorTheme);
+		}
+	}, [cookies]);
 
 	const setTheme = (e: MouseEvent<HTMLButtonElement>) => {
 		changeColor(e.currentTarget.value);
@@ -55,8 +63,8 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
 						Color Scheme
 					</MenuButton>
 					<MenuList>
-						{cookies.colorTheme ? (
-							<MenuOptionGroup type="radio" defaultValue={cookies.colorTheme}>
+						{menuDefValue ? (
+							<MenuOptionGroup type="radio" defaultValue={menuDefValue}>
 								<MenuItemOption
 									onClick={setTheme}
 									className="colorOption"
