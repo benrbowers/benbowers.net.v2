@@ -1,15 +1,36 @@
 import { Flex, Heading, Text } from '@chakra-ui/react';
 import Theme from '@chakra-ui/theme';
 import Head from 'next/head';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Layout } from '../components/Layout';
 import { ThemeContext } from '../themes/theme';
 import { initBallEngine } from '../scripts/initBallEngine.js';
+import { Engine } from '../scripts/bouncejs/Engine';
+import { useRouter } from 'next/router';
 
 const Index = () => {
 	const { colorTheme } = useContext(ThemeContext);
 
-	useEffect(initBallEngine);
+	const [hasLoaded, setHasLoaded] = useState(false);
+
+	const [engine, setEngine] = useState(null as null | Engine);
+
+	const router = useRouter();
+
+	useEffect(() => {
+		if (!hasLoaded) {
+			setEngine(initBallEngine());
+			setHasLoaded(true);
+		}
+
+		if (engine) {
+			router.events.on('routeChangeStart', (url: string) => {
+				if (url !== '/') {
+					engine.stop();
+				}
+			});
+		}
+	});
 
 	return (
 		<>

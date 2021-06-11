@@ -10,6 +10,10 @@ export function initBallEngine() {
 	canvas.height = window.innerHeight;
 	console.log('set canvas size');
 
+	canvas.onclick = () => {
+		console.log('click');
+	};
+
 	let color;
 	if (document.cookie) {
 		color = document.cookie.split('=')[1];
@@ -35,33 +39,48 @@ export function initBallEngine() {
 		navBall.mass = (4 / 3) * Math.PI * navBall.radius ** 3;
 		navBall.position.x = Math.random() * window.innerWidth;
 		navBall.position.y = Math.random() * window.innerHeight;
-		navBall.velocity.x = Math.random() * -400 + 200;
-		navBall.velocity.y = Math.random() * -400 + 200;
+		navBall.velocity.x = Math.random() * -200 + 100;
+		navBall.velocity.y = Math.random() * -200 + 100;
+
+		navBall.onObjectCollison = () => {
+			console.log('collision');
+		};
 
 		navBalls[i] = navBall;
 		engine.add(navBall);
 	}
 
 	const smBallPcnt = 2; // Percentage of area ball will take up
+	const numThrowBalls = 10;
 
-	for (let i = 1; i <= 10; i++) {
+	for (let i = 1; i <= numThrowBalls; i++) {
 		const throwBall = new Ball();
 		throwBall.color = chakraColors[color][i % 2 ? 200 : 600]; // Alternate between light and dark
 		throwBall.radius =
 			Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2 +
-			(Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2) * (i / 10);
+			(Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2) * (i / numThrowBalls);
 		// (Math.random() * Math.sqrt((smBallPcnt * a) / (100 * Math.PI))) / 2 +
 		// Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2;
 		throwBall.mass = (4 / 3) * Math.PI * throwBall.radius ** 3;
 		throwBall.position.x = Math.random() * window.innerWidth;
 		throwBall.position.y = Math.random() * window.innerHeight;
-		throwBall.velocity.x = Math.random() * -400 + 200; //-((a / 5000) * 2) + a / 5000;
-		throwBall.velocity.y = Math.random() * -400 + 200; //-((a / 5000) * 2) + a / 5000;
+		throwBall.velocity.x = Math.random() * -350 + 175; //-((a / 3000) * 2) + a / 3000;
+		throwBall.velocity.y = Math.random() * -350 + 175; //-((a / 3000) * 2) + a / 3000;
 
 		throwBalls[i] = throwBall;
 
 		engine.add(throwBall);
 	}
+
+	const grabMeBall = new Ball();
+	grabMeBall.color = chakraColors[color][600];
+	grabMeBall.radius = Math.sqrt((smBallPcnt * a) / (100 * Math.PI));
+	grabMeBall.mass = (4 / 3) * Math.PI * grabMeBall.radius ** 3;
+	grabMeBall.position.x = Math.random() * window.innerWidth;
+	grabMeBall.position.y = Math.random() * window.innerHeight;
+	grabMeBall.velocity.x = Math.random() * -350 + 175;
+	grabMeBall.velocity.y = Math.random() * -350 + 175;
+	engine.add(grabMeBall);
 
 	document.querySelectorAll('.colorOption').forEach((option) => {
 		option.addEventListener('click', (e) => {
@@ -75,6 +94,8 @@ export function initBallEngine() {
 			throwBalls.forEach((ball, i) => {
 				ball.color = newColor[i % 2 ? 200 : 600];
 			});
+
+			grabMeBall.color = newColor[600];
 		});
 	});
 
@@ -111,6 +132,9 @@ export function initBallEngine() {
 		}
 	});
 
+	let showGrabMe = false;
+	let showThrowMe = false;
+
 	// Add images to the navBalls every frame
 	engine.setOnFrame(() => {
 		for (let i = 0; i < navBallImgs.length; i++) {
@@ -123,6 +147,30 @@ export function initBallEngine() {
 
 			const canvas2D = canvas.getContext('2d');
 			canvas2D.drawImage(img, x, y, offset * 2, offset * 2);
+		}
+
+		const offset = grabMeBall.radius / Math.sqrt(2);
+		const x = grabMeBall.position.x - offset;
+		const y = grabMeBall.position.y - offset;
+
+		const grabMeImg = document.createElement('img');
+		grabMeImg.src = '/static/ballLogos/grabMe.svg';
+
+		const throwMeImg = document.createElement('img');
+		throwMeImg.src = '/static/ballLogos/throwMe.svg';
+
+		const canvas2D = canvas.getContext('2d');
+
+		if (showThrowMe) {
+			canvas2D.drawImage(
+				throwMeImg,
+				x - offset * 0.25,
+				y - offset * 0.05,
+				offset * 2.5,
+				offset * 2.5
+			);
+		} else if (showGrabMe) {
+			canvas2D.drawImage(grabMeImg, x, y, offset * 2, offset * 2);
 		}
 
 		document.body.style.cursor = 'default';
@@ -147,25 +195,25 @@ export function initBallEngine() {
 		}
 	});
 
+	let grabMeIsActive = false;
 	engine.setOnObjectPress(() => {
-		if (
-			engine.selectedObject == navBalls[0] &&
-			!(settingsActive && engine.mousePos.x < 300)
-		) {
-			window.open('https://github.com/benrbowers', '_blank');
-			engine.selectedObject = null;
-		} else if (
-			engine.selectedObject == navBalls[1] &&
-			!(settingsActive && engine.mousePos.x < 300)
-		) {
-			window.open(
-				'https://www.linkedin.com/in/ben-bowers-07154417a/',
-				'_blank'
-			);
-			engine.selectedObject = null;
+		if (!(settingsActive && engine.mousePos.x < 300)) {
+			if (engine.selectedObject === navBalls[0]) {
+				window.open('https://github.com/benrbowers', '_blank');
+				engine.selectedObject = null;
+			} else if (engine.selectedObject === navBalls[1]) {
+				window.open(
+					'https://www.linkedin.com/in/ben-bowers-07154417a/',
+					'_blank'
+				);
+				engine.selectedObject = null;
+			} else if (grabMeIsActive && engine.selectedObject === grabMeBall) {
+				showThrowMe = true;
+			}
 		}
 	});
 
+	let userHasThrown = false;
 	engine.setOnObjectRelease(() => {
 		if (engine.selectedObject !== null) {
 			//Time since last mouse movement
@@ -179,6 +227,18 @@ export function initBallEngine() {
 					engine.mouseVel.x,
 					engine.mouseVel.y
 				);
+
+				if (engine.mouseVel.magnitude > 100) {
+					userHasThrown = true;
+
+					console.log('User threw');
+
+					if (grabMeIsActive && engine.selectedObject === grabMeBall) {
+						showGrabMe = false;
+						showThrowMe = false;
+						grabMeIsActive = false;
+					}
+				}
 			} else {
 				engine.selectedObject.velocity = new Vector2(0, 0);
 			}
@@ -197,4 +257,20 @@ export function initBallEngine() {
 
 	engine.start();
 	console.log('engine started');
+
+	setTimeout(() => {
+		if (!userHasThrown) {
+			grabMeIsActive = true;
+			const grabMeInterval = setInterval(() => {
+				if (grabMeIsActive) {
+					showGrabMe = !showGrabMe;
+				} else {
+					showGrabMe = false;
+					clearInterval(grabMeInterval);
+				}
+			}, 500);
+		}
+	}, 5000);
+
+	return engine;
 }

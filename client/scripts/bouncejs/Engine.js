@@ -37,6 +37,12 @@ export class Engine {
 		this.mouseHeld = false;
 		this.mousePos = new Vector2();
 		this.mouseVel = new Vector2();
+		this.isStopped = false;
+		this.boundOnMouseUp = this.onMouseUp.bind(this);
+		this.boundOnMouseDown = this.onMouseDown.bind(this);
+		this.boundOnMouseMove = this.onMouseMove.bind(this);
+		this.boundOnTouchStart = this.onTouchStart.bind(this);
+		this.boundOnTouchMove = this.onTouchMove.bind(this);
 
 		this.onObjectPress = function () {};
 		this.onObjectRelease = function () {};
@@ -45,17 +51,17 @@ export class Engine {
 		canvas.width = canvas.height * (canvas.clientWidth / canvas.clientHeight); //Ensure correct aspect ratio of canvas
 
 		//canvas.onmouseup = this.onMouseUp.bind(this);
-		window.addEventListener('mouseup', this.onMouseUp.bind(this));
+		window.addEventListener('mouseup', this.boundOnMouseUp);
 		//canvas.onmousedown = this.onMouseDown.bind(this);
-		window.addEventListener('mousedown', this.onMouseDown.bind(this));
+		window.addEventListener('mousedown', this.boundOnMouseDown);
 		//canvas.onmousemove = this.onMouseMove.bind(this);
-		window.addEventListener('mousemove', this.onMouseMove.bind(this));
+		window.addEventListener('mousemove', this.boundOnMouseMove);
 		//canvas.ontouchstart = this.onTouchStart.bind(this);
-		window.addEventListener('touchstart', this.onTouchStart.bind(this));
+		window.addEventListener('touchstart', this.boundOnTouchMove);
 		//canvas.ontouchend = this.onMouseUp.bind(this);
-		window.addEventListener('touchend', this.onMouseUp.bind(this));
+		window.addEventListener('touchend', this.boundOnMouseUp);
 		//canvas.ontouchmove = this.onTouchMove.bind(this);
-		window.addEventListener('touchmove', this.onTouchMove.bind(this));
+		window.addEventListener('touchmove', this.boundOnTouchMove);
 	}
 
 	onMouseMove(event) {
@@ -236,6 +242,18 @@ export class Engine {
 		this.whileObjectHeld = userFunction;
 	}
 
+	stop() {
+		this.isStopped = true;
+		window.removeEventListener('mouseup', this.boundOnMouseUp);
+		window.removeEventListener('mousedown', this.boundOnMouseDown);
+		window.removeEventListener('mousemove', this.boundOnMouseMove);
+		window.removeEventListener('touchstart', this.boundOnTouchStart);
+		window.removeEventListener('touchend', this.boundOnMouseUp);
+		window.removeEventListener('touchmove', this.boundOnTouchMove);
+
+		console.log('Engine Stopped');
+	}
+
 	start() {
 		if (this.mouseHeld) {
 			if (this.selectedObject !== null) {
@@ -380,7 +398,10 @@ export class Engine {
 		this.physObjects.forEach((ball) => {
 			ball.draw(this.canvas);
 		});
-		requestAnimationFrame(this.start.bind(this));
+
+		if (!this.isStopped) {
+			requestAnimationFrame(this.start.bind(this));
+		}
 	} //end start()
 
 	/**

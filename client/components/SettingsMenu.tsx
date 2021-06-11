@@ -12,24 +12,19 @@ import {
 	MenuList,
 	MenuOptionGroup,
 } from '@chakra-ui/react';
-import React, { MouseEvent, useContext, useEffect, useState } from 'react';
+import React, { MouseEvent, useContext } from 'react';
 import { useCookies } from 'react-cookie';
+import Theme from '@chakra-ui/theme';
 import { ThemeContext } from '../themes/theme';
 
 type SettingsMenuProps = BoxProps;
 
-export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
+export const SettingsMenu: React.FC<SettingsMenuProps> = ({
+	children,
+	...props
+}) => {
 	const { colorTheme, changeColor } = useContext(ThemeContext);
 	const [cookies] = useCookies(['colorTheme']);
-	const [menuDefValue, setMenuDefValue] = useState(
-		undefined as undefined | string
-	);
-
-	useEffect(() => {
-		if (cookies.colorTheme) {
-			setMenuDefValue(cookies.colorTheme);
-		}
-	}, [cookies]);
 
 	const setTheme = (e: MouseEvent<HTMLButtonElement>) => {
 		changeColor(e.currentTarget.value);
@@ -45,7 +40,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
 			px="20px"
 			{...props}
 		>
-			<Heading textAlign="center" color="gray.500">
+			<Heading textAlign="center" color={colorTheme + '.400'}>
 				Settings
 			</Heading>
 			<hr />
@@ -54,17 +49,22 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
 				<Menu closeOnSelect={false}>
 					<MenuButton
 						as={Button}
-						bgColor={colorTheme + '.400'}
 						color="white"
+						bgColor="gray.400"
+						_hover={{ bgColor: 'gray.500' }}
+						_active={{ bgColor: 'gray.600' }}
+						_focus={{
+							boxShadow:
+								'0px 0px 0px 3px ' +
+								Theme.colors[colorTheme as keyof typeof Theme.colors]['400'],
+						}}
 						rightIcon={<ChevronDownIcon />}
-						_hover={{ bgColor: colorTheme + '.500' }}
-						_active={{ bgColor: colorTheme + '.500' }}
 					>
 						Color Scheme
 					</MenuButton>
 					<MenuList>
-						{menuDefValue ? (
-							<MenuOptionGroup type="radio" defaultValue={menuDefValue}>
+						{cookies.colorTheme ? (
+							<MenuOptionGroup type="radio" defaultValue={cookies.colorTheme}>
 								<MenuItemOption
 									onClick={setTheme}
 									className="colorOption"
@@ -136,8 +136,10 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
 					</MenuList>
 				</Menu>
 			</Box>
+			<br />
 			<Input placeholder="smBallPcnt" className="smBallPcnt" />
 			<Input placeholder="lgBallPcnt" className="lgBallPcnt" />
+			{children}
 		</Box>
 	);
 };
