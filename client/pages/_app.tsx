@@ -8,8 +8,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 	const [cookies, setCookie] = useCookies(['colorTheme']);
 	const [colorTheme, setColorTheme] = useState('cyan');
 
-	const [engineActive, setEngineActive] = useState(false);
-
 	if (cookies.colorTheme === undefined) {
 		setCookie('colorTheme', colorTheme, { path: '/', sameSite: 'lax' });
 	}

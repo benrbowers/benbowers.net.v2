@@ -10,10 +10,6 @@ export function initBallEngine() {
 	canvas.height = window.innerHeight;
 	console.log('set canvas size');
 
-	canvas.onclick = () => {
-		console.log('click');
-	};
-
 	let color;
 	if (document.cookie) {
 		color = document.cookie.split('=')[1];
