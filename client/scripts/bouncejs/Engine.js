@@ -47,6 +47,7 @@ export class Engine {
 		this.onObjectPress = function () {};
 		this.onObjectRelease = function () {};
 		this.whileObjectHeld = function () {};
+		this.onStop = () => {};
 
 		canvas.width = canvas.height * (canvas.clientWidth / canvas.clientHeight); //Ensure correct aspect ratio of canvas
 
@@ -57,7 +58,7 @@ export class Engine {
 		//canvas.onmousemove = this.onMouseMove.bind(this);
 		window.addEventListener('mousemove', this.boundOnMouseMove);
 		//canvas.ontouchstart = this.onTouchStart.bind(this);
-		window.addEventListener('touchstart', this.boundOnTouchMove);
+		window.addEventListener('touchstart', this.boundOnTouchStart);
 		//canvas.ontouchend = this.onMouseUp.bind(this);
 		window.addEventListener('touchend', this.boundOnMouseUp);
 		//canvas.ontouchmove = this.onTouchMove.bind(this);
@@ -250,6 +251,8 @@ export class Engine {
 		window.removeEventListener('touchstart', this.boundOnTouchStart);
 		window.removeEventListener('touchend', this.boundOnMouseUp);
 		window.removeEventListener('touchmove', this.boundOnTouchMove);
+
+		this.onStop();
 
 		console.log('Engine Stopped');
 	}
