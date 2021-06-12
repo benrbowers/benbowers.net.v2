@@ -1,21 +1,10 @@
-import {
-	Box,
-	Button,
-	IconButton,
-	Popover,
-	PopoverArrow,
-	PopoverCloseButton,
-	PopoverContent,
-	PopoverHeader,
-	PopoverTrigger,
-	Portal,
-} from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
+import { IconButton } from '@chakra-ui/react';
+import Theme from '@chakra-ui/theme';
 import React, { useContext, useState } from 'react';
+import { ThemeContext } from '../themes/theme';
 import { SettingsButton } from './SettingsButton';
 import { SettingsMenu } from './SettingsMenu';
-import { ThemeContext } from '../themes/theme';
-import Theme from '@chakra-ui/theme';
 
 interface SettingsProps {
 	animationDuration?: number;
