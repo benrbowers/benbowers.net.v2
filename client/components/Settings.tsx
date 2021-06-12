@@ -1,4 +1,15 @@
-import { IconButton } from '@chakra-ui/react';
+import {
+	Box,
+	Button,
+	IconButton,
+	Popover,
+	PopoverArrow,
+	PopoverCloseButton,
+	PopoverContent,
+	PopoverHeader,
+	PopoverTrigger,
+	Portal,
+} from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 import React, { useContext, useState } from 'react';
 import { SettingsButton } from './SettingsButton';

@@ -3,20 +3,23 @@ import { Ball } from './bouncejs/Ball.js';
 import { Vector2 } from './bouncejs/Vector2.js';
 import chakraColors from './chakraColors.js';
 
-export function initBallEngine() {
+export function initHomePageBalls() {
 	const canvas = document.querySelector('canvas');
 
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 	console.log('set canvas size');
 
-	let color;
+	let themeColor; // Color theme chosen by user.
+
+	// Check if there is a color theme set, else set to the default, cyan
 	if (document.cookie) {
-		color = document.cookie.split('=')[1];
+		themeColor = document.cookie.split('=')[1];
+		console.log(document.cookie);
 	} else {
-		color = 'cyan';
+		themeColor = 'cyan';
 	}
-	console.log('colorTheme: ', color);
+	console.log('colorTheme: ', themeColor);
 
 	let engine = new Engine(canvas, 'white');
 
@@ -24,13 +27,15 @@ export function initBallEngine() {
 	const navBalls = [];
 	const throwBalls = [];
 
-	const a = window.innerHeight * window.innerWidth;
-	const bgBallPcnt = 4; // Percentage of area ball will take up
+	let initNetMomentum = 0;
 
-	// Generate balls and put them into the `navBalls` object, using text as the key
+	let a = window.innerHeight * window.innerWidth; // Area of window in pixels^2
+	const bgBallPcnt = 4; // Percentage of screen area ball will take up
+
+	// Generate balls that navigate to socials, add them to the engine, and put them into the `navBalls` array
 	for (let i = 0; i < navBallImgs.length; i++) {
 		const navBall = new Ball();
-		navBall.color = chakraColors[color][400];
+		navBall.color = chakraColors[themeColor][400];
 		navBall.radius = Math.sqrt((bgBallPcnt * a) / (100 * Math.PI));
 		navBall.mass = (4 / 3) * Math.PI * navBall.radius ** 3;
 		navBall.position.x = Math.random() * window.innerWidth;
@@ -38,20 +43,19 @@ export function initBallEngine() {
 		navBall.velocity.x = Math.random() * -200 + 100;
 		navBall.velocity.y = Math.random() * -200 + 100;
 
-		navBall.onObjectCollison = () => {
-			console.log('collision');
-		};
-
 		navBalls[i] = navBall;
 		engine.add(navBall);
+
+		initNetMomentum += navBall.mass * navBall.velocity.magnitude;
 	}
 
-	const smBallPcnt = 2; // Percentage of area ball will take up
-	const numThrowBalls = 10;
+	const smBallPcnt = 2; // Percentage of screen area ball will take up
+	const numThrowBalls = 10; // Number of throw balls to add to screen
 
+	// Generate balls for grabbing/throwing, add them to the engine, and put them in the `throwBalls` array
 	for (let i = 1; i <= numThrowBalls; i++) {
 		const throwBall = new Ball();
-		throwBall.color = chakraColors[color][i % 2 ? 200 : 600]; // Alternate between light and dark
+		throwBall.color = chakraColors[themeColor][i % 2 ? 200 : 600]; // Alternate between light and dark
 		throwBall.radius =
 			Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2 +
 			(Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2) * (i / numThrowBalls);
@@ -66,10 +70,13 @@ export function initBallEngine() {
 		throwBalls[i] = throwBall;
 
 		engine.add(throwBall);
+
+		initNetMomentum += throwBall.mass * throwBall.velocity.magnitude;
 	}
 
+	//Create the ball that will show "GRAB ME" and then "THROW ME" if user doesn't throw a ball for some time
 	const grabMeBall = new Ball();
-	grabMeBall.color = chakraColors[color][600];
+	grabMeBall.color = chakraColors[themeColor][600];
 	grabMeBall.radius = Math.sqrt((smBallPcnt * a) / (100 * Math.PI));
 	grabMeBall.mass = (4 / 3) * Math.PI * grabMeBall.radius ** 3;
 	grabMeBall.position.x = Math.random() * window.innerWidth;
@@ -77,7 +84,9 @@ export function initBallEngine() {
 	grabMeBall.velocity.x = Math.random() * -350 + 175;
 	grabMeBall.velocity.y = Math.random() * -350 + 175;
 	engine.add(grabMeBall);
+	initNetMomentum += grabMeBall.mass * grabMeBall.velocity.magnitude;
 
+	// Add click event listeners to the color option button to change the color of each ball
 	document.querySelectorAll('.colorOption').forEach((option) => {
 		option.addEventListener('click', (e) => {
 			const value = e.currentTarget.value;
@@ -95,7 +104,8 @@ export function initBallEngine() {
 		});
 	});
 
-	let settingsActive = false;
+	// If the settings menu is open, I want to prevent interaction with balls that go underneath
+	let settingsActive = false; // Whether the settings menu is open
 	document.querySelector('.settingsButton').addEventListener('click', () => {
 		settingsActive = !settingsActive;
 	});
@@ -128,35 +138,56 @@ export function initBallEngine() {
 		}
 	});
 
-	let showGrabMe = false;
-	let showThrowMe = false;
+	const onResize = () => {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		engine.width = window.innerWidth;
+		engine.height = window.innerHeight;
 
-	// Add images to the navBalls every frame
+		a = window.innerWidth * window.innerHeight;
+
+		navBalls.forEach((navBall) => {
+			navBall.radius = Math.sqrt((bgBallPcnt * a) / (100 * Math.PI));
+		});
+
+		throwBalls.forEach((throwBall, i) => {
+			throwBall.radius =
+				Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2 +
+				(Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2) *
+					((i + 1) / numThrowBalls);
+		});
+
+		grabMeBall.radius = Math.sqrt((smBallPcnt * a) / (100 * Math.PI));
+	};
+	window.addEventListener('resize', onResize);
+	engine.onStop = () => {
+		window.removeEventListener('resize', onResize);
+	};
+
+	let showGrabMe = false; // Whether to show the "GRAB ME" text image
+	let showThrowMe = false; // Whether to show the "THROW ME" text image
+
 	engine.setOnFrame(() => {
+		// Add images to the navBalls every frame
 		for (let i = 0; i < navBallImgs.length; i++) {
-			const offset = (navBalls[i].radius / Math.sqrt(2)) * (1 - i * 0.15);
-			const x = navBalls[i].position.x - offset;
-			const y = navBalls[i].position.y - offset;
-
+			const offset = (navBalls[i].radius / Math.sqrt(2)) * (1 - i * 0.15); // Offset to fit square image in a circle
+			const x = navBalls[i].position.x - offset; // x coord for image
+			const y = navBalls[i].position.y - offset; // y coord for image
 			const img = document.createElement('img');
 			img.src = '/static/ballLogos/' + navBallImgs[i];
-
 			const canvas2D = canvas.getContext('2d');
 			canvas2D.drawImage(img, x, y, offset * 2, offset * 2);
 		}
 
+		// Add "GRAB ME" or "THROW ME" images to `grabMeBall` according to `showGrabMe` and `showThrowMe`
 		const offset = grabMeBall.radius / Math.sqrt(2);
 		const x = grabMeBall.position.x - offset;
 		const y = grabMeBall.position.y - offset;
-
 		const grabMeImg = document.createElement('img');
 		grabMeImg.src = '/static/ballLogos/grabMe.svg';
-
 		const throwMeImg = document.createElement('img');
 		throwMeImg.src = '/static/ballLogos/throwMe.svg';
-
 		const canvas2D = canvas.getContext('2d');
-
 		if (showThrowMe) {
 			canvas2D.drawImage(
 				throwMeImg,
@@ -169,6 +200,7 @@ export function initBallEngine() {
 			canvas2D.drawImage(grabMeImg, x, y, offset * 2, offset * 2);
 		}
 
+		// Set mouse cursor based on which ball user is hovering or grabbing
 		document.body.style.cursor = 'default';
 		engine.physObjects.forEach((ball) => {
 			if (
@@ -189,9 +221,24 @@ export function initBallEngine() {
 		) {
 			document.body.style.cursor = 'grabbing';
 		}
+
+		let currentNetMomentum = 0;
+		engine.physObjects.forEach((ball) => {
+			currentNetMomentum += ball.mass * ball.velocity.magnitude;
+		});
+
+		if (currentNetMomentum > initNetMomentum) {
+			engine.physObjects.forEach((ball) => {
+				ball.drag = 0.3;
+			});
+		} else {
+			engine.physObjects.forEach((ball) => {
+				ball.drag = 0.0;
+			});
+		}
 	});
 
-	let grabMeIsActive = false;
+	let grabMeIsActive = false; // Whether `grabMeBall` needs to display text
 	engine.setOnObjectPress(() => {
 		if (!(settingsActive && engine.mousePos.x < 300)) {
 			if (engine.selectedObject === navBalls[0]) {
@@ -209,7 +256,7 @@ export function initBallEngine() {
 		}
 	});
 
-	let userHasThrown = false;
+	let userHasThrown = false; // Whether user has thrown a ball yet
 	engine.setOnObjectRelease(() => {
 		if (engine.selectedObject !== null) {
 			//Time since last mouse movement
@@ -226,14 +273,11 @@ export function initBallEngine() {
 
 				if (engine.mouseVel.magnitude > 100) {
 					userHasThrown = true;
+					grabMeIsActive = false;
+					showGrabMe = false;
+					showThrowMe = false;
 
 					console.log('User threw');
-
-					if (grabMeIsActive && engine.selectedObject === grabMeBall) {
-						showGrabMe = false;
-						showThrowMe = false;
-						grabMeIsActive = false;
-					}
 				}
 			} else {
 				engine.selectedObject.velocity = new Vector2(0, 0);
@@ -241,6 +285,7 @@ export function initBallEngine() {
 		}
 	});
 
+	// Snap ball to user's mouse if they are grabbing it
 	engine.setWhileObjectHeld(() => {
 		if (!(settingsActive && engine.mousePos.x < 300)) {
 			engine.selectedObject.velocity.x = 0;
@@ -254,6 +299,8 @@ export function initBallEngine() {
 	engine.start();
 	console.log('engine started');
 
+	const grabMeDelay = 5000; // How long to wait to show "GRAB ME" text if user hasn't thrown a ball
+	const grabMeFlashTime = 500; // How fast to flash "GRAB ME" text
 	setTimeout(() => {
 		if (!userHasThrown) {
 			grabMeIsActive = true;
@@ -262,11 +309,12 @@ export function initBallEngine() {
 					showGrabMe = !showGrabMe;
 				} else {
 					showGrabMe = false;
+					showThrowMe = false;
 					clearInterval(grabMeInterval);
 				}
-			}, 500);
+			}, grabMeFlashTime);
 		}
-	}, 5000);
+	}, grabMeDelay);
 
 	return engine;
 }

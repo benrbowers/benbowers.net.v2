@@ -1,32 +1,33 @@
 import { Flex, Heading, Text } from '@chakra-ui/react';
 import Theme from '@chakra-ui/theme';
 import Head from 'next/head';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Layout } from '../components/Layout';
 import { ThemeContext } from '../themes/theme';
-import { initBallEngine } from '../scripts/initBallEngine.js';
+import { initHomePageBalls } from '../scripts/initHomePageBalls.js';
 import { Engine } from '../scripts/bouncejs/Engine';
 import { useRouter } from 'next/router';
 
 const Index = () => {
 	const { colorTheme } = useContext(ThemeContext);
 
-	const [hasLoaded, setHasLoaded] = useState(false);
-
-	const [engine, setEngine] = useState(null as null | Engine);
+	let hasLoaded = false; // Whether the page has loaded
+	let engine = null as null | Engine; // The ball engine
 
 	const router = useRouter();
 
 	useEffect(() => {
 		if (!hasLoaded) {
-			setEngine(initBallEngine());
-			setHasLoaded(true);
+			// Start bouncy balls only if the page has not loaded before
+			engine = initHomePageBalls();
+			hasLoaded = true;
 		}
 
 		if (engine) {
 			router.events.on('routeChangeStart', (url: string) => {
 				if (url !== '/') {
-					engine.stop();
+					// Stop engine if page is changed
+					engine?.stop();
 				}
 			});
 		}
@@ -40,12 +41,12 @@ const Index = () => {
 					content="JqTop4MmVFuGkOXxeKkOBcflDqHbhmvHdcnJoN75kdo"
 				/>
 			</Head>
-			<canvas
-				width={0}
-				height={0}
-				style={{ position: 'fixed', zIndex: -1, transition: 'width 0.6s' }}
-			></canvas>
 			<Layout>
+				<canvas
+					width={0}
+					height={0}
+					style={{ position: 'fixed', zIndex: -1, top: 0 }}
+				></canvas>
 				<Flex
 					flexDir="column"
 					alignItems="center"
