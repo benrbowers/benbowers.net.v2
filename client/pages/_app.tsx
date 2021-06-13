@@ -9,7 +9,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 	const [colorTheme, setColorTheme] = useState('cyan');
 
 	if (cookies.colorTheme === undefined) {
-		setCookie('colorTheme', colorTheme, { path: '/', sameSite: 'lax' });
+		const yearFromNow = new Date();
+		yearFromNow.setTime(yearFromNow.getTime() + 1000 * 3600 * 24 * 365); // 1 year from now
+		setCookie('colorTheme', colorTheme, {
+			path: '/',
+			sameSite: 'lax',
+			expires: yearFromNow,
+		});
 	}
 
 	useEffect(() => {
@@ -19,7 +25,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 	}, [cookies]);
 
 	const changeColor = (color: string) => {
-		setCookie('colorTheme', color, { path: '/', sameSite: 'lax' });
+		const yearFromNow = new Date();
+		yearFromNow.setTime(yearFromNow.getTime() + 1000 * 3600 * 24 * 365); // 1 year from now
+		setCookie('colorTheme', color, {
+			path: '/',
+			sameSite: 'lax',
+			expires: yearFromNow,
+		});
 	};
 
 	return (

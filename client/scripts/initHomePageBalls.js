@@ -10,16 +10,21 @@ export function initHomePageBalls() {
 	canvas.height = window.innerHeight;
 	console.log('set canvas size');
 
-	let themeColor; // Color theme chosen by user.
+	let colorTheme = 'cyan'; // Color theme chosen by user.
+	let userHasThrown = false; // Whether user has thrown a ball yet
 
 	// Check if there is a color theme set, else set to the default, cyan
 	if (document.cookie) {
-		themeColor = document.cookie.split('=')[1];
-		console.log(document.cookie);
-	} else {
-		themeColor = 'cyan';
+		document.cookie.split('; ').forEach((cookie) => {
+			if (cookie.split('=')[0] === 'colorTheme') {
+				colorTheme = cookie.split('=')[1];
+			} else if (cookie.split('=')[0] === 'userHasThrown') {
+				console.log('There was a userHasThrownCookie');
+				userHasThrown = true;
+			}
+		});
 	}
-	console.log('colorTheme: ', themeColor);
+	console.log('colorTheme: ', colorTheme);
 
 	let engine = new Engine(canvas, 'white');
 
@@ -35,7 +40,7 @@ export function initHomePageBalls() {
 	// Generate balls that navigate to socials, add them to the engine, and put them into the `navBalls` array
 	for (let i = 0; i < navBallImgs.length; i++) {
 		const navBall = new Ball();
-		navBall.color = chakraColors[themeColor][400];
+		navBall.color = chakraColors[colorTheme][400];
 		navBall.radius = Math.sqrt((bgBallPcnt * a) / (100 * Math.PI));
 		navBall.mass = (4 / 3) * Math.PI * navBall.radius ** 3;
 		navBall.position.x = Math.random() * window.innerWidth;
@@ -55,7 +60,7 @@ export function initHomePageBalls() {
 	// Generate balls for grabbing/throwing, add them to the engine, and put them in the `throwBalls` array
 	for (let i = 1; i <= numThrowBalls; i++) {
 		const throwBall = new Ball();
-		throwBall.color = chakraColors[themeColor][i % 2 ? 200 : 600]; // Alternate between light and dark
+		throwBall.color = chakraColors[colorTheme][i % 2 ? 200 : 600]; // Alternate between light and dark
 		throwBall.radius =
 			Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2 +
 			(Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2) * (i / numThrowBalls);
@@ -76,7 +81,7 @@ export function initHomePageBalls() {
 
 	//Create the ball that will show "GRAB ME" and then "THROW ME" if user doesn't throw a ball for some time
 	const grabMeBall = new Ball();
-	grabMeBall.color = chakraColors[themeColor][600];
+	grabMeBall.color = chakraColors[colorTheme][600];
 	grabMeBall.radius = Math.sqrt((smBallPcnt * a) / (100 * Math.PI));
 	grabMeBall.mass = (4 / 3) * Math.PI * grabMeBall.radius ** 3;
 	grabMeBall.position.x = Math.random() * window.innerWidth;
@@ -110,33 +115,37 @@ export function initHomePageBalls() {
 		settingsActive = !settingsActive;
 	});
 
-	document.querySelector('.smBallPcnt').addEventListener('keydown', (e) => {
-		if (e.key === 'Enter') {
-			if (isNaN(parseFloat(e.currentTarget.value))) {
-				console.log(e.currentTarget.value, ' is not a number');
-			} else {
-				const p = parseFloat(e.currentTarget.value);
-				throwBalls.forEach((ball) => {
-					ball.radius =
-						(Math.random() * Math.sqrt((p * a) / (100 * Math.PI))) / 2 +
-						Math.sqrt((p * a) / (100 * Math.PI)) / 2;
-				});
-			}
-		}
+	document.querySelector('.closeSettings').addEventListener('click', () => {
+		settingsActive = false;
 	});
 
-	document.querySelector('.lgBallPcnt').addEventListener('keydown', (e) => {
-		if (e.key === 'Enter') {
-			if (isNaN(parseFloat(e.currentTarget.value))) {
-				console.log(e.currentTarget.value, ' is not a number');
-			} else {
-				const p = parseFloat(e.currentTarget.value);
-				navBalls.forEach((ball) => {
-					ball.radius = Math.sqrt((p * a) / (100 * Math.PI));
-				});
-			}
-		}
-	});
+	// document.querySelector('.smBallPcnt').addEventListener('keydown', (e) => {
+	// 	if (e.key === 'Enter') {
+	// 		if (isNaN(parseFloat(e.currentTarget.value))) {
+	// 			console.log(e.currentTarget.value, ' is not a number');
+	// 		} else {
+	// 			const p = parseFloat(e.currentTarget.value);
+	// 			throwBalls.forEach((ball) => {
+	// 				ball.radius =
+	// 					(Math.random() * Math.sqrt((p * a) / (100 * Math.PI))) / 2 +
+	// 					Math.sqrt((p * a) / (100 * Math.PI)) / 2;
+	// 			});
+	// 		}
+	// 	}
+	// });
+
+	// document.querySelector('.lgBallPcnt').addEventListener('keydown', (e) => {
+	// 	if (e.key === 'Enter') {
+	// 		if (isNaN(parseFloat(e.currentTarget.value))) {
+	// 			console.log(e.currentTarget.value, ' is not a number');
+	// 		} else {
+	// 			const p = parseFloat(e.currentTarget.value);
+	// 			navBalls.forEach((ball) => {
+	// 				ball.radius = Math.sqrt((p * a) / (100 * Math.PI));
+	// 			});
+	// 		}
+	// 	}
+	// });
 
 	const onResize = () => {
 		canvas.width = window.innerWidth;
@@ -253,10 +262,11 @@ export function initHomePageBalls() {
 			} else if (grabMeIsActive && engine.selectedObject === grabMeBall) {
 				showThrowMe = true;
 			}
+		} else {
+			engine.selectedObject = null; // Stop ball interaction if they are under settings menu
 		}
 	});
 
-	let userHasThrown = false; // Whether user has thrown a ball yet
 	engine.setOnObjectRelease(() => {
 		if (engine.selectedObject !== null) {
 			//Time since last mouse movement
@@ -266,12 +276,22 @@ export function initHomePageBalls() {
 
 			if (engine.mouseElapsedTime < 0.03) {
 				//Ensure a recent velocity is used
-				engine.selectedObject.velocity = new Vector2(
-					engine.mouseVel.x,
-					engine.mouseVel.y
-				);
+				const maxVel = 5000;
+				if (engine.mouseVel.magnitude > maxVel) {
+					engine.selectedObject.velocity.x = engine.mouseVel.unit.x * maxVel;
+					engine.selectedObject.velocity.y = engine.mouseVel.unit.y * maxVel;
+				} else {
+					engine.selectedObject.velocity.x = engine.mouseVel.x;
+					engine.selectedObject.velocity.y = engine.mouseVel.y;
+				}
 
 				if (engine.mouseVel.magnitude > 100) {
+					if (!userHasThrown) {
+						const yearFromNow = new Date();
+						yearFromNow.setTime(yearFromNow.getTime() + 1000 * 3600 * 24 * 365); // 1 year from now
+						document.cookie = `userHasThrown=true; expires=${yearFromNow.toUTCString()} path=/;`;
+					}
+
 					userHasThrown = true;
 					grabMeIsActive = false;
 					showGrabMe = false;
@@ -287,13 +307,11 @@ export function initHomePageBalls() {
 
 	// Snap ball to user's mouse if they are grabbing it
 	engine.setWhileObjectHeld(() => {
-		if (!(settingsActive && engine.mousePos.x < 300)) {
-			engine.selectedObject.velocity.x = 0;
-			engine.selectedObject.velocity.y = 0;
+		engine.selectedObject.velocity.x = 0;
+		engine.selectedObject.velocity.y = 0;
 
-			engine.selectedObject.position.x = engine.mousePos.x;
-			engine.selectedObject.position.y = engine.mousePos.y;
-		}
+		engine.selectedObject.position.x = engine.mousePos.x;
+		engine.selectedObject.position.y = engine.mousePos.y;
 	});
 
 	engine.start();

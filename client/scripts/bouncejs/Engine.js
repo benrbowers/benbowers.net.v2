@@ -258,10 +258,8 @@ export class Engine {
 	}
 
 	start() {
-		if (this.mouseHeld) {
-			if (this.selectedObject !== null) {
-				this.whileObjectHeld();
-			}
+		if (this.selectedObject !== null) {
+			this.whileObjectHeld();
 		}
 
 		// Check collisions with other balls

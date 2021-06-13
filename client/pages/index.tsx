@@ -1,7 +1,7 @@
 import { Flex, Heading, Text } from '@chakra-ui/react';
 import Theme from '@chakra-ui/theme';
 import Head from 'next/head';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Layout } from '../components/Layout';
 import { ThemeContext } from '../themes/theme';
 import { initHomePageBalls } from '../scripts/initHomePageBalls.js';
@@ -11,7 +11,8 @@ import { useRouter } from 'next/router';
 const Index = () => {
 	const { colorTheme } = useContext(ThemeContext);
 
-	let hasLoaded = false; // Whether the page has loaded
+	// let hasLoaded = false; // Whether the page has loaded
+	const [hasLoaded, setHasLoaded] = useState(false);
 	let engine = null as null | Engine; // The ball engine
 
 	const router = useRouter();
@@ -20,7 +21,7 @@ const Index = () => {
 		if (!hasLoaded) {
 			// Start bouncy balls only if the page has not loaded before
 			engine = initHomePageBalls();
-			hasLoaded = true;
+			setHasLoaded(true);
 		}
 
 		if (engine) {

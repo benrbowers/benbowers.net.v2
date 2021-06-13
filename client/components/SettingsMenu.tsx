@@ -136,9 +136,6 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
 					</MenuList>
 				</Menu>
 			</Box>
-			<br />
-			<Input placeholder="smBallPcnt" className="smBallPcnt" />
-			<Input placeholder="lgBallPcnt" className="lgBallPcnt" />
 			{children}
 		</Box>
 	);

@@ -1,9 +1,22 @@
-import { Box, Button } from '@chakra-ui/react';
+import {
+	Alert,
+	AlertDescription,
+	AlertIcon,
+	AlertTitle,
+	Box,
+	Button,
+	CloseButton,
+	Flex,
+	Heading,
+	Slide,
+	useDisclosure,
+} from '@chakra-ui/react';
+import { EmailIcon } from '@chakra-ui/icons';
 import Theme from '@chakra-ui/theme';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { InputField } from '../components/InputField';
 import { Layout } from '../components/Layout';
 import { Engine } from '../scripts/bouncejs/Engine';
@@ -11,7 +24,7 @@ import { initContactPageBall } from '../scripts/initContactPageBall.js';
 import { ThemeContext } from '../themes/theme';
 
 const Contact = () => {
-	let hasLoaded = false; // Whether the page has loaded
+	const [hasLoaded, setHasLoaded] = useState(false);
 	let engine = null as null | Engine; // The ball engine
 
 	const router = useRouter();
@@ -20,12 +33,12 @@ const Contact = () => {
 		if (!hasLoaded) {
 			// Start bouncy balls only if the page has not loaded before
 			engine = initContactPageBall();
-			hasLoaded = true;
+			setHasLoaded(true);
 		}
 
 		if (engine) {
 			router.events.on('routeChangeStart', (url: string) => {
-				if (url !== '/') {
+				if (url !== '/contact') {
 					// Stop engine if page is changed
 					engine?.stop();
 				}
@@ -35,6 +48,16 @@ const Contact = () => {
 
 	const { colorTheme } = useContext(ThemeContext);
 
+	const {
+		isOpen: errorAlertOpen,
+		onToggle: toggleErrorAlert,
+	} = useDisclosure();
+	const {
+		isOpen: successAlertOpen,
+		onToggle: toggleSuccessAlert,
+	} = useDisclosure();
+	const [errorMessage, setErrorMessage] = useState('');
+
 	return (
 		<Layout>
 			<canvas
@@ -42,9 +65,18 @@ const Contact = () => {
 				height={0}
 				style={{ position: 'fixed', zIndex: -1, top: 0 }}
 			></canvas>
-			<Box
-				w={['250px', '350px', '400px', '450px', '500px']}
-				h={['250px', '350px', '400px', '450px', '500px']}
+			<Heading
+				color="gray.500"
+				fontSize={['35px', '45px', '65px', '80px', '100px']}
+				textAlign="center"
+			>
+				<EmailIcon color="gray.500" /> me@benbowers.net
+			</Heading>
+			<Flex
+				flexDir="column"
+				justify="center"
+				w={['250px', '325px', '400px', '450px', '500px']}
+				h={['250px', '325px', '400px', '450px', '500px']}
 				className="contactForm"
 				pos="fixed"
 				top={0}
@@ -65,6 +97,8 @@ const Contact = () => {
 							.catch((error) => {
 								console.log(error);
 								actions.setSubmitting(false);
+								setErrorMessage(error.message);
+								toggleErrorAlert();
 							});
 					}}
 				>
@@ -73,13 +107,17 @@ const Contact = () => {
 							<InputField
 								name="email"
 								label="Your Email"
-								formLabelProps={{ color: 'white' }}
+								formLabelProps={{
+									color: 'white',
+									textAlign: ['center', 'center', 'left'],
+								}}
 								placeholder="johndoe@example.com"
+								placeholderColor="rgba(255, 255, 255, 0.6)"
 								type="email"
 								required
 								style={{
 									backgroundColor:
-										Theme.colors[colorTheme as keyof typeof Theme.colors][500],
+										Theme.colors[colorTheme as keyof typeof Theme.colors][600],
 									color: 'white',
 								}}
 							/>
@@ -87,28 +125,64 @@ const Contact = () => {
 							<InputField
 								name="message"
 								label="Your Message"
-								formLabelProps={{ color: 'white' }}
+								formLabelProps={{
+									color: 'white',
+									textAlign: ['center', 'center', 'left'],
+								}}
 								textarea
 								placeholder="Write your message here..."
+								placeholderColor="rgba(255, 255, 255, 0.6)"
 								required
 								style={{
 									backgroundColor:
-										Theme.colors[colorTheme as keyof typeof Theme.colors][500],
+										Theme.colors[colorTheme as keyof typeof Theme.colors][600],
 									color: 'white',
 								}}
 							/>
-							<Button
-								mt={4}
-								colorScheme={colorTheme}
-								isLoading={props.isSubmitting}
-								type="submit"
-							>
-								Submit
-							</Button>
+							<Box textAlign={['center', 'center', 'left']}>
+								<Button
+									mt={4}
+									bgColor={
+										Theme.colors[colorTheme as keyof typeof Theme.colors][600]
+									}
+									color="white"
+									isLoading={props.isSubmitting}
+									type="submit"
+								>
+									Send
+								</Button>
+							</Box>
 						</Form>
 					)}
 				</Formik>
-			</Box>
+			</Flex>
+			<Slide direction="bottom" in={errorAlertOpen} style={{ zIndex: 10 }}>
+				<Alert status="error">
+					<AlertIcon />
+					<AlertTitle mr={2}>Message not sent!</AlertTitle>
+					<AlertDescription>{errorMessage}</AlertDescription>
+					<CloseButton
+						position="absolute"
+						right="8px"
+						top="8px"
+						onClick={toggleErrorAlert}
+					/>
+				</Alert>
+			</Slide>
+
+			<Slide direction="bottom" in={successAlertOpen} style={{ zIndex: 10 }}>
+				<Alert status="success">
+					<AlertIcon />
+					<AlertTitle mr={2}>Success!</AlertTitle>
+					<AlertDescription>Message sent to me@benbowers.net</AlertDescription>
+					<CloseButton
+						position="absolute"
+						right="8px"
+						top="8px"
+						onClick={toggleSuccessAlert}
+					/>
+				</Alert>
+			</Slide>
 		</Layout>
 	);
 };

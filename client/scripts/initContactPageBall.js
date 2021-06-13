@@ -10,12 +10,13 @@ export function initContactPageBall() {
 
 	const engine = new Engine(canvas, 'white');
 
-	let themeColor = '';
+	let colorTheme = '';
 	if (document.cookie) {
-		themeColor = document.cookie.split('=')[1];
-		console.log(document.cookie);
-	} else {
-		themeColor = 'cyan';
+		document.cookie.split('; ').forEach((cookie) => {
+			if (cookie.split('=')[0] === 'colorTheme') {
+				colorTheme = cookie.split('=')[1];
+			}
+		});
 	}
 
 	/** @type {HTMLDivElement} */
@@ -24,12 +25,12 @@ export function initContactPageBall() {
 	let formLength = parseInt(getComputedStyle(contactForm).width);
 
 	const contactBall = new Ball();
-	contactBall.color = chakraColors[themeColor][400];
+	contactBall.color = chakraColors[colorTheme][400];
 	contactBall.radius = formLength / Math.sqrt(2);
 	contactBall.position.x = window.innerWidth / 2;
 	contactBall.position.y = window.innerHeight / 2;
 	contactBall.gravity = 100;
-	contactBall.drag = 0.01;
+	contactBall.drag = 0.02;
 	engine.add(contactBall);
 
 	engine.setOnFrame(() => {
@@ -51,6 +52,15 @@ export function initContactPageBall() {
 	};
 
 	window.addEventListener('resize', onResize);
+
+	document.querySelectorAll('.colorOption').forEach((option) => {
+		option.addEventListener('click', (e) => {
+			const value = e.currentTarget.value;
+			const newColor = chakraColors[value];
+
+			contactBall.color = newColor[400];
+		});
+	});
 
 	engine.onStop = () => {
 		window.removeEventListener('resize', onResize);

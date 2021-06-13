@@ -52,6 +52,7 @@ export const Settings: React.FC<SettingsProps> = ({
 					top="0px"
 					right="0px"
 					aria-label="close settings"
+					className="closeSettings"
 					icon={<CloseIcon />}
 					color="gray.500"
 					bgColor="white"
