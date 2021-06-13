@@ -93,6 +93,7 @@ const Contact = () => {
 							.then((response) => {
 								console.log(response);
 								actions.setSubmitting(false);
+								toggleSuccessAlert();
 							})
 							.catch((error) => {
 								console.log(error);
