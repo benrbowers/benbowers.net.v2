@@ -4,7 +4,6 @@ import {
 	BoxProps,
 	Button,
 	Heading,
-	Input,
 	Menu,
 	MenuButton,
 	MenuItem,
@@ -12,9 +11,9 @@ import {
 	MenuList,
 	MenuOptionGroup,
 } from '@chakra-ui/react';
+import Theme from '@chakra-ui/theme';
 import React, { MouseEvent, useContext } from 'react';
 import { useCookies } from 'react-cookie';
-import Theme from '@chakra-ui/theme';
 import { ThemeContext } from '../themes/theme';
 
 type SettingsMenuProps = BoxProps;
