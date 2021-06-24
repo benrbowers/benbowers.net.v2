@@ -121,6 +121,7 @@ const Contact = () => {
 										Theme.colors[colorTheme as keyof typeof Theme.colors][600],
 									color: 'white',
 								}}
+								className="contactInput"
 							/>
 							<br />
 							<InputField
@@ -139,6 +140,7 @@ const Contact = () => {
 										Theme.colors[colorTheme as keyof typeof Theme.colors][600],
 									color: 'white',
 								}}
+								className="contactInput"
 							/>
 							<Box textAlign={['center', 'center', 'left']}>
 								<Button
@@ -149,6 +151,7 @@ const Contact = () => {
 									color="white"
 									isLoading={props.isSubmitting}
 									type="submit"
+									className="contactSubmit"
 								>
 									Send
 								</Button>

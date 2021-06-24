@@ -21,21 +21,21 @@ export function initContactPageBall() {
 
 	/** @type {HTMLDivElement} */
 	const contactForm = document.querySelector('.contactForm');
-
-	let formLength = parseInt(getComputedStyle(contactForm).width);
+	let formWidth = parseInt(getComputedStyle(contactForm).width);
+	const gravity = 100.0;
 
 	const contactBall = new Ball();
 	contactBall.color = chakraColors[colorTheme][400];
-	contactBall.radius = formLength / Math.sqrt(2);
+	contactBall.radius = formWidth / Math.sqrt(2);
 	contactBall.position.x = window.innerWidth / 2;
 	contactBall.position.y = window.innerHeight / 2;
-	contactBall.gravity = 100;
+	contactBall.gravity = gravity;
 	contactBall.drag = 0.02;
 	engine.add(contactBall);
 
 	engine.setOnFrame(() => {
-		const x = contactBall.position.x - formLength / 2;
-		const y = contactBall.position.y - formLength / 2;
+		const x = contactBall.position.x - formWidth / 2;
+		const y = contactBall.position.y - formWidth / 2;
 
 		contactForm.style.transform = `translate(${x}px, ${y}px)`;
 	});
@@ -46,8 +46,8 @@ export function initContactPageBall() {
 		engine.width = window.innerWidth;
 		engine.height = window.innerHeight;
 
-		formLength = parseInt(getComputedStyle(contactForm).width);
-		contactBall.radius = formLength / Math.sqrt(2);
+		formWidth = parseInt(getComputedStyle(contactForm).width);
+		contactBall.radius = formWidth / Math.sqrt(2);
 		contactBall.position.x = window.innerWidth / 2;
 	};
 
@@ -60,6 +60,21 @@ export function initContactPageBall() {
 
 			contactBall.color = newColor[400];
 		});
+	});
+
+	document.querySelectorAll('.contactInput').forEach((input) => {
+		input.addEventListener('focus', () => {
+			contactBall.gravity = 0.0;
+			contactBall.velocity.y = 0.0;
+		});
+
+		input.addEventListener('focusout', () => {
+			contactBall.gravity = gravity;
+		});
+	});
+
+	document.querySelector('form').addEventListener('submit', () => {
+		contactBall.gravity = gravity;
 	});
 
 	engine.onStop = () => {
