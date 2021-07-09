@@ -70,6 +70,11 @@ export function initContactPageBall() {
 
 		input.addEventListener('focusout', () => {
 			contactBall.gravity = gravity;
+
+			const initEnergy = (gravity * canvas.height) / 2;
+			const h = canvas.height - contactBall.position.y;
+			const velocity = Math.sqrt(2 * (initEnergy - gravity * h));
+			contactBall.velocity.y = velocity;
 		});
 	});
 

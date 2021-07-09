@@ -1,5 +1,4 @@
 import { Center, Flex, Link, Text, TextProps } from '@chakra-ui/react';
-import NextLink from 'next/link';
 import { ArrowRightIcon } from '@chakra-ui/icons';
 import React, { useContext, useRef, useState } from 'react';
 import { AnimateCards } from '../components/AnimateCards';
