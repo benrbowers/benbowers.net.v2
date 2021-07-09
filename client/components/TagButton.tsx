@@ -70,7 +70,7 @@ export const TagButton: React.FC<TagButtonProps> = ({
 		>
 			<ImageContainer>
 				<Image
-					src={'/static/' + tag + '.png'}
+					src={'/images/' + tag + '.png'}
 					width={iconSize}
 					height={iconSize}
 				/>

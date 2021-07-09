@@ -1,0 +1,140 @@
+/* body {
+    background-color: #252526;
+    overflow-x: hidden;
+} */
+
+.title {
+    color: white;
+    font-size: 60px;
+    margin: 0;
+    text-align: center;
+}
+
+.description {
+    color: white;
+    font-size: 28px;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.settings {
+    color: white;
+    display: inline-block;
+    margin: 25px;
+}
+
+.settings p {
+    width: 230px;
+    font-size: 28px;
+    margin: 0px;
+}
+
+.setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header {
+    font-size: 36px;
+    text-align: center;
+    margin: 0px;
+}
+
+.toggle {
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+    border-radius: 28px;
+    background-color: royalblue;
+    position: relative;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.switch {
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    margin: 4px;
+    background-color: white;
+    position: absolute;
+    right: 0px;
+    transition: right 0.3s;
+}
+
+.slider {
+    width: 150px;
+    display: inline-block;
+    -webkit-appearance: none;
+    height: 15px;
+    border-radius: 15px;
+    background: gray;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background: royalblue;
+    cursor: pointer;
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background: royalblue;
+    cursor: pointer;
+  }
+
+  .colorInput {
+      background-color: #252526;
+      color: white;
+      border: 1px solid white;
+      width: 150px;
+      font-size: 20px;
+  }
+
+  .button {
+      text-align: center;
+      margin-top: 15px;
+  }
+
+  .button button {
+      background-color: royalblue;
+      color: white;
+      font-size: 28px;
+      border: none;
+	  padding: 0 10px 0 10px;
+  }
+
+  .button button:active {
+      position: relative;
+      top: 5px;
+  }
+
+  .physicsCanvas {
+      margin-left: auto;
+	  margin-right: auto;
+	  margin-bottom: 25px;
+  }
+
+  @media screen and (max-width: 650px) {
+	  .description {
+		  width: 90%;
+	  }
+}

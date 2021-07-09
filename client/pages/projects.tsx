@@ -1,5 +1,7 @@
 import { Center, Flex, Link, Text, TextProps } from '@chakra-ui/react';
-import React, { useRef, useState } from 'react';
+import NextLink from 'next/link';
+import { ArrowRightIcon } from '@chakra-ui/icons';
+import React, { useContext, useRef, useState } from 'react';
 import { AnimateCards } from '../components/AnimateCards';
 import { FlipCardBack } from '../components/FlipCardBack';
 import { FlipCardFront } from '../components/FlipCardFront';
@@ -7,6 +9,7 @@ import { Layout } from '../components/Layout';
 import { ProjectCard, ProjectCardProps } from '../components/ProjectCard';
 import { TagButton, TagButtonProps } from '../components/TagButton';
 import { Tag } from '../types/Tag';
+import { ThemeContext } from '../themes/theme';
 
 const projectProps: Omit<ProjectCardProps, 'ref'> = {
 	w: '250px',
@@ -29,6 +32,7 @@ const projTitleProps: TextProps = {
 
 const Projects = () => {
 	const [selectedTags, setSelectedTags] = useState([] as Tag[]);
+	const { colorTheme } = useContext(ThemeContext);
 
 	const addSelectedTag = (tag: Tag, add: boolean) => {
 		if (add) {
@@ -71,8 +75,13 @@ const Projects = () => {
 				mt="40px"
 			>
 				<ProjectCard tags={['JavaScript']} ref={useRef(null)} {...projectProps}>
-					<FlipCardFront>
-						<Center h="100%">
+					<FlipCardFront
+						bgImg={'url("/static/physicsFun.svg")'}
+						bgRepeat="no-repeat"
+						bgSize="80%"
+						bgPos="center"
+					>
+						<Center h="100%" borderRadius="inherit" bgColor="whiteAlpha.500">
 							<Text {...projTitleProps}>BounceJS</Text>
 						</Center>
 					</FlipCardFront>
@@ -82,12 +91,20 @@ const Projects = () => {
 								BounceJS is a small physics library made with vanilla JavaScript
 								that animates circles on an HTML canvas. You saw it in action on
 								the home page. <br /> <br />
-								Here's the code: <br />
 								<Link
-									color="blue.400"
-									href="https://github.com/benrbowers/bouncejs"
+									color={colorTheme + '.400'}
+									href="https://codesandbox.io/s/bouncejs-demo-vgikr"
 								>
-									GitHub
+									Here's a fun demo{' '}
+									<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
+								</Link>
+								<br />
+								<Link
+									color={colorTheme + '.400'}
+									href="https://codesandbox.io/s/physics-fun-rqkgc"
+								>
+									Here's another!{' '}
+									<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 								</Link>
 							</Text>
 						</Center>
@@ -110,12 +127,12 @@ const Projects = () => {
 								Sticky Notes is a note taking app made with vanilla JavaScript,
 								HTML, and CSS.
 								<br /> <br />
-								Here's the code: <br />
 								<Link
-									color="blue.400"
-									href="https://github.com/benrbowers/sticky-notes"
+									color={colorTheme + '.400'}
+									href="https://codesandbox.io/s/sticky-notes-gbrrw"
 								>
-									GitHub
+									Stick some notes{' '}
+									<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 								</Link>
 							</Text>
 						</Center>
@@ -139,12 +156,20 @@ const Projects = () => {
 								Godot game engine. It recursively generates cube fractals using
 								different Minecraft textures.
 								<br /> <br />
-								Here's the code: <br />
 								<Link
-									color="blue.400"
+									color={colorTheme + '.400'}
+									href="./FractalGeneratorDemo/index.html"
+								>
+									Try it out{' '}
+									<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
+								</Link>
+								<br />
+								<Link
+									color={colorTheme + '.400'}
 									href="https://github.com/benrbowers/cube-fractal-generator"
 								>
-									GitHub
+									See the code{' '}
+									<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 								</Link>
 							</Text>
 						</Center>
@@ -167,12 +192,12 @@ const Projects = () => {
 								The website you're viewing right now was made with TypeScript,
 								NextJS, and ReactJS
 								<br /> <br />
-								Here's the code: <br />
 								<Link
-									color="blue.400"
+									color={colorTheme + '.400'}
 									href="https://github.com/benrbowers/benbowers.net.v2"
 								>
-									GitHub
+									Here's the code{' '}
+									<ArrowRightIcon w={3} h={3} color={colorTheme + '.300'} />
 								</Link>
 							</Text>
 						</Center>

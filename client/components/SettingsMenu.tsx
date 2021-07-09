@@ -55,7 +55,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
 						_focus={{
 							boxShadow:
 								'0px 0px 0px 3px ' +
-								Theme.colors[colorTheme as keyof typeof Theme.colors]['400'],
+								Theme.colors[colorTheme as keyof typeof Theme.colors]['300'],
 						}}
 						rightIcon={<ChevronDownIcon />}
 					>

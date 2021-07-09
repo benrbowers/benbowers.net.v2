@@ -55,7 +55,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
 				<TagContainer>
 					{tags?.map((tag, key) => (
 						<NextImg
-							src={'/static/' + tag + '.png'}
+							src={'/images/' + tag + '.png'}
 							width={iconSize}
 							height={iconSize}
 							key={key}

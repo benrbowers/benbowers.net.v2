@@ -183,7 +183,7 @@ export function initHomePageBalls() {
 			const x = navBalls[i].position.x - offset; // x coord for image
 			const y = navBalls[i].position.y - offset; // y coord for image
 			const img = document.createElement('img');
-			img.src = '/static/ballLogos/' + navBallImgs[i];
+			img.src = '/images/ballLogos/' + navBallImgs[i];
 			const canvas2D = canvas.getContext('2d');
 			canvas2D.drawImage(img, x, y, offset * 2, offset * 2);
 		}
@@ -193,9 +193,9 @@ export function initHomePageBalls() {
 		const x = grabMeBall.position.x - offset;
 		const y = grabMeBall.position.y - offset;
 		const grabMeImg = document.createElement('img');
-		grabMeImg.src = '/static/ballLogos/grabMe.svg';
+		grabMeImg.src = '/images/ballLogos/grabMe.svg';
 		const throwMeImg = document.createElement('img');
-		throwMeImg.src = '/static/ballLogos/throwMe.svg';
+		throwMeImg.src = '/images/ballLogos/throwMe.svg';
 		const canvas2D = canvas.getContext('2d');
 		if (showThrowMe) {
 			canvas2D.drawImage(

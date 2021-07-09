@@ -30,7 +30,7 @@ export const Settings: React.FC<SettingsProps> = ({
 				_focus={{
 					boxShadow:
 						'0px 0px 0px 3px ' +
-						Theme.colors[colorTheme as keyof typeof Theme.colors]['400'],
+						Theme.colors[colorTheme as keyof typeof Theme.colors]['300'],
 				}}
 				onClick={() => {
 					setActive(!active);
@@ -59,7 +59,7 @@ export const Settings: React.FC<SettingsProps> = ({
 					_focus={{
 						boxShadow:
 							'0px 0px 0px 3px ' +
-							Theme.colors[colorTheme as keyof typeof Theme.colors]['400'],
+							Theme.colors[colorTheme as keyof typeof Theme.colors]['300'],
 					}}
 					onClick={() => {
 						setActive(false);
