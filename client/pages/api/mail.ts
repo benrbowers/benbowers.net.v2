@@ -5,11 +5,14 @@ export default (req: VercelRequest, res: VercelResponse) => {
 	console.log('req: ', req);
 	console.log('res: ', res);
 
+	const email = process.env.EMAIL_ADDR;
+	const pass = process.env.EMAIL_PASS;
+
 	const transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
-			user: 'me@benbowers.net',
-			pass: 'w:WJ[~zr_nX_0',
+			user: email,
+			pass: pass,
 		},
 	});
 
