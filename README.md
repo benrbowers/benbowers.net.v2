@@ -1,4 +1,4 @@
-#benbowers.net
+# benbowers.net
 
 This is my personal website! It's built with ReactJS, NextJS, and ChakraUI.
 
