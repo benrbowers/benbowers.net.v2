@@ -64,6 +64,7 @@ const Projects = () => {
 				<TagButton tag="NextJS" {...tagButtonProps} />
 				<TagButton tag="GDScript" {...tagButtonProps} />
 				<TagButton tag="Cpp" {...tagButtonProps} />
+				<TagButton tag="php" {...tagButtonProps} />
 			</Flex>
 			<AnimateCards
 				selectedTags={selectedTags}
@@ -139,6 +140,64 @@ const Projects = () => {
 				</ProjectCard>
 
 				<ProjectCard
+					tags={['HTML', 'CSS', 'JavaScript', 'php']}
+					ref={useRef(null)}
+					{...projectProps}
+				>
+					<FlipCardFront>
+						<Center h="100%">
+							<Text {...projTitleProps}>Chore Board</Text>
+						</Center>
+					</FlipCardFront>
+					<FlipCardBack>
+						<Center h="100%" w="100%">
+							<Text m="10px" color="gray.600">
+								This is a chore board I built for my roommates and I. It was
+								built with HTML, CSS, JS, and php. It is hosted on a raspberry
+								pi using Apache so all people connected to the WiFi can access
+								it.
+								<br /> <br />
+								<Link
+									color={colorTheme + '.400'}
+									href="https://github.com/benrbowers/chore-board"
+								>
+									Check it out here{' '}
+									<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
+								</Link>
+							</Text>
+						</Center>
+					</FlipCardBack>
+				</ProjectCard>
+
+				<ProjectCard
+					tags={['TypeScript', 'NextJS', 'React']}
+					ref={useRef(null)}
+					{...projectProps}
+				>
+					<FlipCardFront>
+						<Center h="100%">
+							<Text {...projTitleProps}>This Site</Text>
+						</Center>
+					</FlipCardFront>
+					<FlipCardBack>
+						<Center h="100%">
+							<Text m="10px" color="gray.600">
+								The website you're viewing right now was made with TypeScript,
+								NextJS, and ReactJS
+								<br /> <br />
+								<Link
+									color={colorTheme + '.400'}
+									href="https://github.com/benrbowers/benbowers.net.v2"
+								>
+									Here's the code{' '}
+									<ArrowRightIcon w={3} h={3} color={colorTheme + '.300'} />
+								</Link>
+							</Text>
+						</Center>
+					</FlipCardBack>
+				</ProjectCard>
+
+				<ProjectCard
 					tags={['GDScript', 'Cpp']}
 					ref={useRef(null)}
 					{...projectProps}
@@ -169,34 +228,6 @@ const Projects = () => {
 								>
 									See the code{' '}
 									<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
-								</Link>
-							</Text>
-						</Center>
-					</FlipCardBack>
-				</ProjectCard>
-
-				<ProjectCard
-					tags={['TypeScript', 'NextJS', 'React']}
-					ref={useRef(null)}
-					{...projectProps}
-				>
-					<FlipCardFront>
-						<Center h="100%">
-							<Text {...projTitleProps}>This Site</Text>
-						</Center>
-					</FlipCardFront>
-					<FlipCardBack>
-						<Center h="100%">
-							<Text m="10px" color="gray.600">
-								The website you're viewing right now was made with TypeScript,
-								NextJS, and ReactJS
-								<br /> <br />
-								<Link
-									color={colorTheme + '.400'}
-									href="https://github.com/benrbowers/benbowers.net.v2"
-								>
-									Here's the code{' '}
-									<ArrowRightIcon w={3} h={3} color={colorTheme + '.300'} />
 								</Link>
 							</Text>
 						</Center>
