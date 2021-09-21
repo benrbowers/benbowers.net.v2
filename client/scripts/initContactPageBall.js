@@ -41,10 +41,21 @@ export function initContactPageBall() {
 	});
 
 	const onResize = () => {
+		if (window.innerHeight <= contactBall.radius * 2) {
+			contactBall.velocity.y = 0;
+			contactBall.gravity = 0;
+		} else {
+			contactBall.gravity = gravity;
+		}
+
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
 		engine.width = window.innerWidth;
 		engine.height = window.innerHeight;
+
+		if (contactBall.position.y < canvas.height / 2) {
+			contactBall.position.y = canvas.height / 2;
+		}
 
 		formWidth = parseInt(getComputedStyle(contactForm).width);
 		contactBall.radius = formWidth / Math.sqrt(2);
@@ -69,12 +80,15 @@ export function initContactPageBall() {
 		});
 
 		input.addEventListener('focusout', () => {
-			contactBall.gravity = gravity;
+			if (window.innerHeight > contactBall.radius * 2) {
+				contactBall.gravity = gravity;
 
-			const initEnergy = (gravity * canvas.height) / 2;
-			const h = canvas.height - contactBall.position.y;
-			const velocity = Math.sqrt(2 * (initEnergy - gravity * h));
-			contactBall.velocity.y = velocity;
+				const initEnergy = (gravity * canvas.height) / 2;
+				const h = canvas.height - contactBall.position.y;
+				console.log(initEnergy - gravity * h);
+				const velocity = Math.sqrt(initEnergy - gravity * h);
+				contactBall.velocity.y = velocity;
+			}
 		});
 	});
 
