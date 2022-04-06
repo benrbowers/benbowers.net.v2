@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { AppProps } from 'next/app';
 import { ThemeContext } from '../themes/theme';
 import { CookiesProvider, useCookies } from 'react-cookie';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const [cookies, setCookie] = useCookies(['colorTheme']);
@@ -35,13 +36,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 	};
 
 	return (
-		<CookiesProvider>
-			<ThemeContext.Provider value={{ colorTheme, changeColor }}>
-				<ChakraProvider resetCSS>
-					<Component {...pageProps} />
-				</ChakraProvider>
-			</ThemeContext.Provider>
-		</CookiesProvider>
+		<>
+			<Head>
+				<link rel="icon" href="/ball-icon.png" />
+			</Head>
+			<CookiesProvider>
+				<ThemeContext.Provider value={{ colorTheme, changeColor }}>
+					<ChakraProvider resetCSS>
+						<Component {...pageProps} />
+					</ChakraProvider>
+				</ThemeContext.Provider>
+			</CookiesProvider>
+		</>
 	);
 }
 
