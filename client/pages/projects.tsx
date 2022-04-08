@@ -77,7 +77,7 @@ const Projects = () => {
 					gridTemplateColumns="repeat(auto-fit, 250px)"
 					justifyContent="center"
 					gridGap="40px"
-					mt="40px"
+					my="40px"
 				>
 					<ProjectCard
 						tags={['JavaScript']}
