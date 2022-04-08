@@ -20,7 +20,7 @@ const projectProps: Omit<ProjectCardProps, 'ref'> = {
 	doesFlipOnTap: true,
 	iconSize: 40,
 	innerStyle: {
-		boxShadow: '0px 0px 7px 2px darkgray',
+		boxShadow: '1px 1px 7px 1px darkgray',
 	},
 };
 
