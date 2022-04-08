@@ -21,8 +21,8 @@ export const Settings: React.FC<SettingsProps> = ({
 			<SettingsButton
 				zIndex={3}
 				pos="fixed"
-				top={['', '0px', '0px']}
-				bottom={['0px', '', '']}
+				top={['', '0px']}
+				bottom={['0px', '']}
 				m={3}
 				isActive={active}
 				animationDuration={animationDuration}

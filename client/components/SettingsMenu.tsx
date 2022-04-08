@@ -33,7 +33,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
 		<Box
 			h="100%"
 			width="300px"
-			boxShadow={['3px 0px 3px 0px darkgray', '5px 0px 5px 0px darkgray']}
+			boxShadow={'2px 0px 7px 0px darkgray'}
 			bgColor="white"
 			pt="50px"
 			px="20px"

@@ -20,7 +20,7 @@ export const SettingsButton: React.FC<SettingsButtonProps> = ({
 			icon={
 				<SettingsIcon
 					transition={`transform ${animationDuration}s`}
-					transform={isActive ? 'rotate(60deg)' : 'rotate(0)'}
+					transform={isActive ? 'rotate(180deg)' : 'rotate(0)'}
 					w={8}
 					h={8}
 					color="gray.500"
