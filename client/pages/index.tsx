@@ -27,6 +27,7 @@ const Index = () => {
 					name="google-site-verification"
 					content="JqTop4MmVFuGkOXxeKkOBcflDqHbhmvHdcnJoN75kdo"
 				/>
+				<title>Ben's Portfolio</title>
 			</Head>
 			<Layout>
 				<canvas
