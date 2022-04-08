@@ -84,7 +84,7 @@ const Contact = () => {
 				></canvas>
 				<Heading
 					color="gray.500"
-					fontSize={['3xl', null, '4xl', null, '5xl']}
+					fontSize={['3xl', '4xl', null, '5xl']}
 					textAlign="center"
 				>
 					<EmailIcon color="gray.500" /> me@benbowers.net

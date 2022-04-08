@@ -41,6 +41,7 @@ export const Settings: React.FC<SettingsProps> = ({
 				pos="fixed"
 				transition={`left ${animationDuration}s`}
 				left={active ? '0px' : '-305px'}
+				top={0}
 			>
 				<IconButton
 					visibility={['visible', 'hidden']}
