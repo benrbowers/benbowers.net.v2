@@ -37,15 +37,19 @@ const Contact = () => {
 
 	let engine: Engine;
 
+	// First render
 	useEffect(() => {
-		engine = initContactPageBall();
 		setDimension();
+		requestAnimationFrame(() => {
+			engine = initContactPageBall();
+		});
 
 		return () => {
-			engine.stop();
+			engine?.stop();
 		};
 	}, []);
 
+	// On screensize change
 	useEffect(() => {
 		window.addEventListener('resize', setDimension);
 
@@ -75,7 +79,7 @@ const Contact = () => {
 			></canvas>
 			<Heading
 				color="gray.500"
-				fontSize={['35px', '45px', '65px', '80px', '100px']}
+				fontSize={['3xl', null, '4xl', null, '5xl']}
 				textAlign="center"
 			>
 				<EmailIcon color="gray.500" /> me@benbowers.net
@@ -83,8 +87,8 @@ const Contact = () => {
 			<Flex
 				flexDir="column"
 				justify="center"
-				w={['250px', '325px', '400px', '450px', '500px']}
-				h={['250px', '325px', '400px', '450px', '500px']}
+				w={screenSize.height < screenSize.width ? '50vh' : '60vw'}
+				h={screenSize.height < screenSize.width ? '50vh' : '60vw'}
 				className="contactForm"
 				pos="fixed"
 				top={0}
@@ -118,7 +122,7 @@ const Contact = () => {
 								label="Your Email"
 								formLabelProps={{
 									color: 'white',
-									textAlign: ['center', 'center', 'left'],
+									textAlign: 'center',
 								}}
 								placeholder="johndoe@example.com"
 								placeholderColor="rgba(255, 255, 255, 0.6)"
@@ -130,14 +134,14 @@ const Contact = () => {
 									color: 'white',
 								}}
 								className="contactInput"
+								mb={[2, null, 4, null, 6]}
 							/>
-							<br />
 							<InputField
 								name="message"
 								label="Your Message"
 								formLabelProps={{
 									color: 'white',
-									textAlign: ['center', 'center', 'left'],
+									textAlign: 'center',
 								}}
 								textarea
 								placeholder="Write your message here..."
@@ -149,10 +153,10 @@ const Contact = () => {
 									color: 'white',
 								}}
 								className="contactInput"
+								mb={[2, null, 4, null, 6]}
 							/>
-							<Box textAlign={['center', 'center', 'left']}>
+							<Box textAlign={'center'}>
 								<Button
-									mt={4}
 									bgColor={
 										Theme.colors[colorTheme as keyof typeof Theme.colors][600]
 									}
