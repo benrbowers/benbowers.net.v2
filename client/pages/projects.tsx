@@ -76,10 +76,10 @@ const Projects = () => {
 			>
 				<ProjectCard tags={['JavaScript']} ref={useRef(null)} {...projectProps}>
 					<FlipCardFront
-						bgImg={'url("/static/physicsFun.svg")'}
-						bgRepeat="no-repeat"
-						bgSize="80%"
-						bgPos="center"
+					// bgImg={'url("/static/physicsFun.svg")'}
+					// bgRepeat="no-repeat"
+					// bgSize="80%"
+					// bgPos="center"
 					>
 						<Center h="100%" borderRadius="inherit" bgColor="whiteAlpha.500">
 							<Text {...projTitleProps}>BounceJS</Text>

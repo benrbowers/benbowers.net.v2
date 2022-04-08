@@ -15,7 +15,6 @@ import { EmailIcon } from '@chakra-ui/icons';
 import Theme from '@chakra-ui/theme';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
 import { InputField } from '../components/InputField';
 import { Layout } from '../components/Layout';
@@ -24,27 +23,36 @@ import { initContactPageBall } from '../scripts/initContactPageBall.js';
 import { ThemeContext } from '../themes/theme';
 
 const Contact = () => {
-	const [hasLoaded, setHasLoaded] = useState(false);
-	let engine = null as null | Engine; // The ball engine
+	const [screenSize, getDimension] = useState({
+		width: 0,
+		height: 0,
+	});
 
-	const router = useRouter();
+	const setDimension = () => {
+		getDimension({
+			width: window.innerWidth,
+			height: window.innerHeight,
+		});
+	};
+
+	let engine: Engine;
 
 	useEffect(() => {
-		if (!hasLoaded) {
-			// Start bouncy balls only if the page has not loaded before
-			engine = initContactPageBall();
-			setHasLoaded(true);
-		}
+		engine = initContactPageBall();
+		setDimension();
 
-		if (engine) {
-			router.events.on('routeChangeStart', (url: string) => {
-				if (url !== '/contact') {
-					// Stop engine if page is changed
-					engine?.stop();
-				}
-			});
-		}
-	});
+		return () => {
+			engine.stop();
+		};
+	}, []);
+
+	useEffect(() => {
+		window.addEventListener('resize', setDimension);
+
+		return () => {
+			window.removeEventListener('resize', setDimension);
+		};
+	}, [screenSize]);
 
 	const { colorTheme } = useContext(ThemeContext);
 

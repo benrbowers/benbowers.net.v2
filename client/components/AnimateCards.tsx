@@ -43,13 +43,10 @@ export const AnimateCards: React.FC<AnimateCardsProps> = ({
 
 				if (projCard.ref) {
 					if (selected) {
-						console.log(getComputedStyle(projCard.ref.current).display);
 						if (getComputedStyle(projCard.ref.current).display === 'block') {
 							selectedVisibleCards.push(projCard.ref.current);
-							console.log('visible');
 						} else {
 							selectedHiddenCards.push(projCard.ref.current);
-							console.log('hidden');
 						}
 					} else {
 						unselectedCards.push(projCard.ref.current);
@@ -109,7 +106,6 @@ export const AnimateCards: React.FC<AnimateCardsProps> = ({
 		selectedVisibleCards.forEach((card, i) => {
 			const changeInX = oldRects[i].left - newRects[i].left + 'px'; // Change in horizontal pixels (inverted)
 			const changeInY = oldRects[i].top - newRects[i].top + 'px'; // Change in vertical pixels (inverted)
-			console.log(changeInX);
 
 			// Animate from old position to position
 			if (changeInX || changeInY) {

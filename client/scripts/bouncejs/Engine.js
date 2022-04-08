@@ -51,17 +51,11 @@ export class Engine {
 
 		canvas.width = canvas.height * (canvas.clientWidth / canvas.clientHeight); //Ensure correct aspect ratio of canvas
 
-		//canvas.onmouseup = this.onMouseUp.bind(this);
 		window.addEventListener('mouseup', this.boundOnMouseUp);
-		//canvas.onmousedown = this.onMouseDown.bind(this);
 		window.addEventListener('mousedown', this.boundOnMouseDown);
-		//canvas.onmousemove = this.onMouseMove.bind(this);
 		window.addEventListener('mousemove', this.boundOnMouseMove);
-		//canvas.ontouchstart = this.onTouchStart.bind(this);
 		window.addEventListener('touchstart', this.boundOnTouchStart);
-		//canvas.ontouchend = this.onMouseUp.bind(this);
 		window.addEventListener('touchend', this.boundOnMouseUp);
-		//canvas.ontouchmove = this.onTouchMove.bind(this);
 		window.addEventListener('touchmove', this.boundOnTouchMove);
 	}
 

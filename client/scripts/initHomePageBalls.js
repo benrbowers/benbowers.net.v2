@@ -30,7 +30,6 @@ export function initHomePageBalls() {
 
 	const navBallImgs = ['GitHub-Mark-Light-120px-plus.png', 'In-White-128.png'];
 	const navBalls = [];
-	const throwBalls = [];
 
 	let initNetMomentum = 0;
 
@@ -40,7 +39,7 @@ export function initHomePageBalls() {
 	// Generate balls that navigate to socials, add them to the engine, and put them into the `navBalls` array
 	for (let i = 0; i < navBallImgs.length; i++) {
 		const navBall = new Ball();
-		navBall.color = chakraColors[colorTheme][400];
+		navBall.color = chakraColors[colorTheme][600];
 		navBall.radius = Math.sqrt((bgBallPcnt * a) / (100 * Math.PI));
 		navBall.mass = (4 / 3) * Math.PI * navBall.radius ** 3;
 		navBall.position.x = Math.random() * window.innerWidth;
@@ -56,11 +55,13 @@ export function initHomePageBalls() {
 
 	const smBallPcnt = 2; // Percentage of screen area ball will take up
 	const numThrowBalls = 10; // Number of throw balls to add to screen
+	const throwBalls = [];
 
 	// Generate balls for grabbing/throwing, add them to the engine, and put them in the `throwBalls` array
-	for (let i = 1; i <= numThrowBalls; i++) {
+	for (let i = 0; i < numThrowBalls; i++) {
+		const shades = [200, 400, 600];
 		const throwBall = new Ball();
-		throwBall.color = chakraColors[colorTheme][i % 2 ? 200 : 600]; // Alternate between light and dark
+		throwBall.color = chakraColors[colorTheme][shades[i % 3]]; // Alternate between light and dark
 		throwBall.radius =
 			Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2 +
 			(Math.sqrt((smBallPcnt * a) / (100 * Math.PI)) / 2) * (i / numThrowBalls);
@@ -94,15 +95,17 @@ export function initHomePageBalls() {
 	// Add click event listeners to the color option button to change the color of each ball
 	document.querySelectorAll('.colorOption').forEach((option) => {
 		option.addEventListener('click', (e) => {
+			const shades = [200, 400, 600];
+
 			const value = e.currentTarget.value;
 			const newColor = chakraColors[value];
 
 			navBalls.forEach((ball) => {
-				ball.color = newColor[400];
+				ball.color = newColor[600];
 			});
 
 			throwBalls.forEach((ball, i) => {
-				ball.color = newColor[i % 2 ? 200 : 600];
+				ball.color = newColor[shades[i % 3]];
 			});
 
 			grabMeBall.color = newColor[600];
