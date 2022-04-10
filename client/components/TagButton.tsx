@@ -28,7 +28,7 @@ const TagText = styled(Text)`
 	display: inline-block;
 	color: white;
 	vertical-align: middle;
-`;
+` as typeof Text;
 
 const ImageContainer = styled(Box)`
 	display: inline-block;
@@ -75,7 +75,9 @@ export const TagButton: React.FC<TagButtonProps> = ({
 					height={iconSize}
 				/>
 			</ImageContainer>
-			<TagText fontSize={fontSize}>{tag === 'Cpp' ? 'C++' : tag}</TagText>
+			<TagText ml={1} fontSize={fontSize}>
+				{tag === 'Cpp' ? 'C++' : tag}
+			</TagText>
 		</StyledButton>
 	);
 };

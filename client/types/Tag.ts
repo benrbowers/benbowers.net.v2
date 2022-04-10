@@ -4,7 +4,7 @@ export type Tag =
 	| 'HTML'
 	| 'CSS'
 	| 'React'
-	| 'php'
+	| 'PHP'
 	| 'GDScript'
 	| 'NextJS'
 	| 'Cpp';

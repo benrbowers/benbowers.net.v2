@@ -69,7 +69,7 @@ const Projects = () => {
 					<TagButton tag="NextJS" {...tagButtonProps} />
 					<TagButton tag="GDScript" {...tagButtonProps} />
 					<TagButton tag="Cpp" {...tagButtonProps} />
-					<TagButton tag="php" {...tagButtonProps} />
+					<TagButton tag="PHP" {...tagButtonProps} />
 				</Flex>
 				<AnimateCards
 					selectedTags={selectedTags}
@@ -149,7 +149,7 @@ const Projects = () => {
 					</ProjectCard>
 
 					<ProjectCard
-						tags={['HTML', 'CSS', 'JavaScript', 'php']}
+						tags={['HTML', 'CSS', 'JavaScript', 'PHP']}
 						ref={useRef(null)}
 						{...projectProps}
 					>
