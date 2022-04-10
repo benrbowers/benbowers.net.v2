@@ -35,10 +35,24 @@ function MyApp({ Component, pageProps }: AppProps) {
 		});
 	};
 
+	const favicons = {
+		cyan: 'ball-icon.png',
+		red: 'ball-icon-red.png',
+		green: 'ball-icon-green.png',
+		blue: 'ball-icon-blue.png',
+		purple: 'ball-icon-purple.png',
+		pink: 'ball-icon-pink.png',
+		messenger: 'ball-icon-messenger.png',
+		whatsapp: 'ball-icon-whatsapp.png',
+	};
+
 	return (
 		<>
 			<Head>
-				<link rel="icon" href="/ball-icon.png" />
+				<link
+					rel="icon"
+					href={'/favicons/' + favicons[colorTheme as keyof typeof favicons]}
+				/>
 			</Head>
 			<CookiesProvider>
 				<ThemeContext.Provider value={{ colorTheme, changeColor }}>
