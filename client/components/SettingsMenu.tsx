@@ -118,7 +118,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
 									color="messenger.400"
 									value="messenger"
 								>
-									Messanger
+									Messenger
 								</MenuItemOption>
 								<MenuItemOption
 									onClick={setTheme}
