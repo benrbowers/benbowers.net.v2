@@ -122,6 +122,10 @@ export function initHomePageBalls() {
 		settingsActive = false;
 	});
 
+	document.querySelector('.settingsAway').addEventListener('click', () => {
+		settingsActive = false;
+	});
+
 	// document.querySelector('.smBallPcnt').addEventListener('keydown', (e) => {
 	// 	if (e.key === 'Enter') {
 	// 		if (isNaN(parseFloat(e.currentTarget.value))) {

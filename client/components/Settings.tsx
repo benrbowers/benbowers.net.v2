@@ -36,7 +36,15 @@ export const Settings: React.FC<SettingsProps> = ({
 					setActive(!active);
 				}}
 			/>
-			<Flex w="full" h="full" flexDir="row" pos="fixed" top={0} zIndex={2}>
+			<Flex
+				w="full"
+				h="full"
+				flexDir="row"
+				pos="fixed"
+				top={0}
+				zIndex={2}
+				pointerEvents={active ? 'auto' : 'none'}
+			>
 				<SettingsMenu
 					pos="relative"
 					transition={`left ${animationDuration}s`}
@@ -69,10 +77,10 @@ export const Settings: React.FC<SettingsProps> = ({
 				<Box
 					h="full"
 					flexGrow={1}
-					pointerEvents={active ? 'auto' : 'none'}
 					onClick={() => {
 						setActive(false);
 					}}
+					className="settingsAway"
 				/>
 			</Flex>
 		</>
