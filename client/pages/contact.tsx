@@ -1,3 +1,4 @@
+import { EmailIcon } from '@chakra-ui/icons';
 import {
 	Alert,
 	AlertDescription,
@@ -11,17 +12,16 @@ import {
 	Slide,
 	useDisclosure,
 } from '@chakra-ui/react';
-import { EmailIcon } from '@chakra-ui/icons';
 import Theme from '@chakra-ui/theme';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
+import Head from 'next/head';
 import React, { useContext, useEffect, useState } from 'react';
 import { InputField } from '../components/InputField';
 import { Layout } from '../components/Layout';
 import { Engine } from '../scripts/bouncejs/Engine';
 import { initContactPageBall } from '../scripts/initContactPageBall.js';
 import { ThemeContext } from '../themes/theme';
-import Head from 'next/head';
 
 const Contact = () => {
 	const [screenSize, getDimension] = useState({
@@ -141,8 +141,8 @@ const Contact = () => {
 										color: 'white',
 									}}
 									className="contactInput"
-									mb={[2, null, 4, null, 6]}
 								/>
+								<Box h={[2, 4, null, 6]} />
 								<InputField
 									name="message"
 									label="Your Message"
@@ -162,8 +162,8 @@ const Contact = () => {
 										color: 'white',
 									}}
 									className="contactInput"
-									mb={[2, null, 4, null, 6]}
 								/>
+								<Box h={[2, 4, null, 6]} />
 								<Box textAlign={'center'}>
 									<Button
 										bgColor={
