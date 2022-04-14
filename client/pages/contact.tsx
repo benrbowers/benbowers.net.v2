@@ -41,23 +41,17 @@ const Contact = () => {
 	// First render
 	useEffect(() => {
 		setDimension();
+		window.addEventListener('resize', setDimension);
+
 		requestAnimationFrame(() => {
 			engine = initContactPageBall();
 		});
 
 		return () => {
 			engine?.stop();
-		};
-	}, []);
-
-	// On screensize change
-	useEffect(() => {
-		window.addEventListener('resize', setDimension);
-
-		return () => {
 			window.removeEventListener('resize', setDimension);
 		};
-	}, [screenSize]);
+	}, []);
 
 	const { colorTheme } = useContext(ThemeContext);
 

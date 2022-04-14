@@ -1,24 +1,46 @@
-import { Flex, Heading, Text } from '@chakra-ui/react';
+import { Center, Flex, Heading, Text } from '@chakra-ui/react';
 import Theme from '@chakra-ui/theme';
 import Head from 'next/head';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Layout } from '../components/Layout';
 import { ThemeContext } from '../themes/theme';
 import { initHomePageBalls } from '../scripts/initHomePageBalls.js';
 import { Engine } from '../scripts/bouncejs/Engine';
 
 const Index = () => {
+	const [screenSize, getDimension] = useState({
+		width: 0,
+		height: 0,
+	});
+
+	const setDimension = () => {
+		getDimension({
+			width: window.innerWidth,
+			height: window.innerHeight,
+		});
+	};
 	const { colorTheme } = useContext(ThemeContext);
 
 	let engine: Engine;
 
+	// First render
 	useEffect(() => {
-		engine = initHomePageBalls();
+		setDimension();
+		window.addEventListener('resize', setDimension);
+
+		requestAnimationFrame(() => {
+			engine = initHomePageBalls();
+		});
 
 		return () => {
-			engine.stop();
+			engine?.stop();
+			window.removeEventListener('resize', setDimension);
 		};
 	}, []);
+
+	const textSize = useMemo(() => {
+		return Math.sqrt(screenSize.width * screenSize.height) * 0.1 + 'px';
+	}, [screenSize]);
 
 	return (
 		<>
@@ -35,6 +57,17 @@ const Index = () => {
 					height={0}
 					style={{ position: 'fixed', zIndex: -1, top: 0 }}
 				></canvas>
+				<Center
+					width={textSize}
+					height={textSize}
+					fontSize={['md', 'xl', '2xl', '3xl']}
+					textAlign="center"
+					color="white"
+					pos="fixed"
+					left={0}
+					top={0}
+					className="grabMeText"
+				></Center>
 				<Flex
 					flexDir="column"
 					alignItems="center"

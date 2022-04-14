@@ -80,10 +80,13 @@ export function initHomePageBalls() {
 		initNetMomentum += throwBall.mass * throwBall.velocity.magnitude;
 	}
 
-	//Create the ball that will show "GRAB ME" and then "THROW ME" if user doesn't throw a ball for some time
+	//Create the ball that will show "GRAB ME" and then "THROW ME" if user doesn't throw a
+	/** @type HTMLParagraphElement */
+	const grabMeText = document.querySelector('.grabMeText');
+
 	const grabMeBall = new Ball();
 	grabMeBall.color = chakraColors[colorTheme][600];
-	grabMeBall.radius = Math.sqrt((smBallPcnt * a) / (100 * Math.PI));
+	grabMeBall.radius = grabMeText.offsetWidth / Math.SQRT2;
 	grabMeBall.mass = (4 / 3) * Math.PI * grabMeBall.radius ** 3;
 	grabMeBall.position.x = Math.random() * window.innerWidth;
 	grabMeBall.position.y = Math.random() * window.innerHeight;
@@ -173,14 +176,14 @@ export function initHomePageBalls() {
 					((i + 1) / numThrowBalls);
 		});
 
-		grabMeBall.radius = Math.sqrt((smBallPcnt * a) / (100 * Math.PI));
+		grabMeBall.radius = grabMeText.offsetWidth / Math.SQRT2;
 	};
 	window.addEventListener('resize', onResize);
 	engine.onStop = () => {
 		window.removeEventListener('resize', onResize);
 	};
 
-	let showGrabMe = false; // Whether to show the "GRAB ME" text image
+	let grabMeIsActive = false; // Whether `grabMeBall` needs to display text
 	let showThrowMe = false; // Whether to show the "THROW ME" text image
 
 	engine.setOnFrame(() => {
@@ -196,24 +199,11 @@ export function initHomePageBalls() {
 		}
 
 		// Add "GRAB ME" or "THROW ME" images to `grabMeBall` according to `showGrabMe` and `showThrowMe`
-		const offset = grabMeBall.radius / Math.sqrt(2);
-		const x = grabMeBall.position.x - offset;
-		const y = grabMeBall.position.y - offset;
-		const grabMeImg = document.createElement('img');
-		grabMeImg.src = '/images/ballLogos/grabMe.svg';
-		const throwMeImg = document.createElement('img');
-		throwMeImg.src = '/images/ballLogos/throwMe.svg';
-		const canvas2D = canvas.getContext('2d');
-		if (showThrowMe) {
-			canvas2D.drawImage(
-				throwMeImg,
-				x - offset * 0.25,
-				y - offset * 0.05,
-				offset * 2.5,
-				offset * 2.5
-			);
-		} else if (showGrabMe) {
-			canvas2D.drawImage(grabMeImg, x, y, offset * 2, offset * 2);
+		if (grabMeIsActive) {
+			const x = grabMeBall.position.x - grabMeBall.radius / Math.SQRT2;
+			const y = grabMeBall.position.y - grabMeBall.radius / Math.SQRT2;
+
+			grabMeText.style.transform = `translateX(${x}px) translateY(${y}px)`;
 		}
 
 		// Set mouse cursor based on which ball user is hovering or grabbing
@@ -254,7 +244,6 @@ export function initHomePageBalls() {
 		}
 	});
 
-	let grabMeIsActive = false; // Whether `grabMeBall` needs to display text
 	engine.setOnObjectPress(() => {
 		if (!(settingsActive && engine.mousePos.x < 300)) {
 			if (engine.selectedObject === navBalls[0]) {
@@ -268,6 +257,7 @@ export function initHomePageBalls() {
 				engine.selectedObject = null;
 			} else if (grabMeIsActive && engine.selectedObject === grabMeBall) {
 				showThrowMe = true;
+				grabMeText.innerText = 'THROW ME';
 			}
 		} else {
 			engine.selectedObject = null; // Stop ball interaction if they are under settings menu
@@ -301,8 +291,6 @@ export function initHomePageBalls() {
 
 					userHasThrown = true;
 					grabMeIsActive = false;
-					showGrabMe = false;
-					showThrowMe = false;
 
 					console.log('User threw');
 				}
@@ -331,10 +319,16 @@ export function initHomePageBalls() {
 			grabMeIsActive = true;
 			const grabMeInterval = setInterval(() => {
 				if (grabMeIsActive) {
-					showGrabMe = !showGrabMe;
+					console.log(grabMeText.innerText);
+					if (showThrowMe) {
+						grabMeText.innerText = 'THROW ME';
+					} else if (grabMeText.innerText === '') {
+						grabMeText.innerText = 'GRAB ME';
+					} else {
+						grabMeText.innerText = '';
+					}
 				} else {
-					showGrabMe = false;
-					showThrowMe = false;
+					grabMeText.innerText = '';
 					clearInterval(grabMeInterval);
 				}
 			}, grabMeFlashTime);
