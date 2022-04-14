@@ -60,7 +60,7 @@ const Index = () => {
 				<Center
 					width={textSize}
 					height={textSize}
-					fontSize={['md', 'xl', '2xl', '3xl']}
+					fontSize={['md', 'xl', '2xl', '3xl', '4xl']}
 					textAlign="center"
 					color="white"
 					pos="fixed"
