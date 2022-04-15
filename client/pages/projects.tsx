@@ -102,7 +102,7 @@ const Projects = () => {
 									in action on the home page. <br /> <br />
 									<Link
 										color={colorTheme + '.400'}
-										href="https://codesandbox.io/s/bouncejs-demo-vgikr"
+										href="./bouncejs/demo/index.html"
 									>
 										Here's a fun demo{' '}
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
@@ -110,9 +110,9 @@ const Projects = () => {
 									<br />
 									<Link
 										color={colorTheme + '.400'}
-										href="https://codesandbox.io/s/physics-fun-rqkgc"
+										href="https://github.com/benrbowers/bouncejs"
 									>
-										Here's another!{' '}
+										Here's the code{' '}
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 									</Link>
 								</Text>
@@ -138,9 +138,17 @@ const Projects = () => {
 									<br /> <br />
 									<Link
 										color={colorTheme + '.400'}
-										href="https://codesandbox.io/s/sticky-notes-gbrrw"
+										href="./sticky-notes/index.html"
 									>
 										Stick some notes{' '}
+										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
+									</Link>
+									<br />
+									<Link
+										color={colorTheme + '.400'}
+										href="https://github.com/benrbowers/sticky-notes"
+									>
+										See how they're stuck{' '}
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 									</Link>
 								</Text>
@@ -224,7 +232,7 @@ const Projects = () => {
 									using different Minecraft textures.
 									<br /> <br />
 									<Link color={colorTheme + '.400'} href="./fractal/index.html">
-										Try it out{' '}
+										Make some fractals{' '}
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 									</Link>
 									<br />
@@ -232,7 +240,7 @@ const Projects = () => {
 										color={colorTheme + '.400'}
 										href="https://github.com/benrbowers/cube-fractal-generator"
 									>
-										See the code{' '}
+										Look under the hood{' '}
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 									</Link>
 								</Text>
