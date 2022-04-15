@@ -260,7 +260,10 @@ export class Engine {
 		this.physObjects.forEach((ball1) => {
 			if (ball1.collidesWithObjects) {
 				this.physObjects.forEach((ball2) => {
-					if (ball2.collidesWithObjects) {
+					if (
+						ball2.collidesWithObjects &&
+						!(ball1.isStatic && ball2.isStatic)
+					) {
 						var dist = ball1.position.distance(ball2.position);
 
 						if (ball1 !== ball2 && dist < ball1.radius + ball2.radius) {
@@ -269,14 +272,30 @@ export class Engine {
 							// Handle overlap
 							var overlap = (ball1.radius + ball2.radius - dist) / 2;
 
-							ball1.position.x -=
-								(overlap / dist) * (ball2.position.x - ball1.position.x);
-							ball1.position.y -=
-								(overlap / dist) * (ball2.position.y - ball1.position.y);
-							ball2.position.x -=
-								(overlap / dist) * (ball1.position.x - ball2.position.x);
-							ball2.position.y -=
-								(overlap / dist) * (ball1.position.y - ball2.position.y);
+							if (ball1.isStatic) {
+								ball2.position.x -=
+									((overlap * 2) / dist) *
+									(ball1.position.x - ball2.position.x);
+								ball2.position.y -=
+									((overlap * 2) / dist) *
+									(ball1.position.y - ball2.position.y);
+							} else if (ball2.isStatic) {
+								ball1.position.x -=
+									((overlap * 2) / dist) *
+									(ball2.position.x - ball1.position.x);
+								ball1.position.y -=
+									((overlap * 2) / dist) *
+									(ball2.position.y - ball1.position.y);
+							} else {
+								ball1.position.x -=
+									(overlap / dist) * (ball2.position.x - ball1.position.x);
+								ball1.position.y -=
+									(overlap / dist) * (ball2.position.y - ball1.position.y);
+								ball2.position.x -=
+									(overlap / dist) * (ball1.position.x - ball2.position.x);
+								ball2.position.y -=
+									(overlap / dist) * (ball1.position.y - ball2.position.y);
+							}
 
 							// Distance between centers of the circles
 							var centerDistance = ball1.position.distance(ball2.position);
@@ -300,8 +319,8 @@ export class Engine {
 								ball2.velocity.dot(normal),
 								ball2.velocity.dot(tangent)
 							);
-							var m1 = ball1.mass;
-							var m2 = ball2.mass;
+							var m1 = ball2.isStatic ? 0.0 : ball1.mass;
+							var m2 = ball1.isStatic ? 0.0 : ball2.mass;
 
 							// Calculate the new normal velocities using 1D conservation of momentum
 							var v1x = ((m1 - m2) * v1.x + 2 * m2 * v2.x) / (m1 + m2);

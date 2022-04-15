@@ -9,13 +9,7 @@ export const Layout: React.FC = ({ children }) => {
 	return (
 		<Box pos="relative">
 			<Settings animationDuration={0.6} />
-			<NavBar
-				width="fit-content"
-				mx="auto"
-				mb={3}
-				mt={1}
-				bgColor="whiteAlpha.700"
-			/>
+			<NavBar className="navBar" width="fit-content" mx="auto" mb={3} mt={1} />
 			{children}
 		</Box>
 	);

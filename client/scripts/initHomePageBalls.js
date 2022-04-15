@@ -28,29 +28,29 @@ export function initHomePageBalls() {
 
 	let engine = new Engine(canvas, 'white');
 
-	const navBallImgs = ['GitHub-Mark-Light-120px-plus.png', 'In-White-128.png'];
-	const navBalls = [];
+	const linkBallImgs = ['GitHub-Mark-Light-120px-plus.png', 'In-White-128.png'];
+	const linkBalls = [];
 
 	let initNetMomentum = 0;
 
 	let a = window.innerHeight * window.innerWidth; // Area of window in pixels^2
 	const bgBallPcnt = 4; // Percentage of screen area ball will take up
 
-	// Generate balls that navigate to socials, add them to the engine, and put them into the `navBalls` array
-	for (let i = 0; i < navBallImgs.length; i++) {
-		const navBall = new Ball();
-		navBall.color = chakraColors[colorTheme][600];
-		navBall.radius = Math.sqrt((bgBallPcnt * a) / (100 * Math.PI));
-		navBall.mass = (4 / 3) * Math.PI * navBall.radius ** 3;
-		navBall.position.x = Math.random() * window.innerWidth;
-		navBall.position.y = Math.random() * window.innerHeight;
-		navBall.velocity.x = Math.random() * -200 + 100;
-		navBall.velocity.y = Math.random() * -200 + 100;
+	// Generate balls that navigate to socials, add them to the engine, and put them into the `linkBalls` array
+	for (let i = 0; i < linkBallImgs.length; i++) {
+		const linkBall = new Ball();
+		linkBall.color = chakraColors[colorTheme][600];
+		linkBall.radius = Math.sqrt((bgBallPcnt * a) / (100 * Math.PI));
+		linkBall.mass = (4 / 3) * Math.PI * linkBall.radius ** 3;
+		linkBall.position.x = Math.random() * window.innerWidth;
+		linkBall.position.y = Math.random() * window.innerHeight;
+		linkBall.velocity.x = Math.random() * -200 + 100;
+		linkBall.velocity.y = Math.random() * -200 + 100;
 
-		navBalls[i] = navBall;
-		engine.add(navBall);
+		linkBalls[i] = linkBall;
+		engine.add(linkBall);
 
-		initNetMomentum += navBall.mass * navBall.velocity.magnitude;
+		initNetMomentum += linkBall.mass * linkBall.velocity.magnitude;
 	}
 
 	const smBallPcnt = 2; // Percentage of screen area ball will take up
@@ -95,6 +95,32 @@ export function initHomePageBalls() {
 	engine.add(grabMeBall);
 	initNetMomentum += grabMeBall.mass * grabMeBall.velocity.magnitude;
 
+	/** @type {HTMLDivElement} */
+	const navBar = document.querySelector('.navBar');
+	const navRect = navBar.getBoundingClientRect();
+
+	const navBallRadius = navBar.clientHeight / 3;
+	let currPos = navBallRadius * 1.5;
+	/** @type {Ball[]} */
+	const navBalls = [];
+
+	// String of static balls that "protects" the nav bar
+	while (currPos < navBar.clientWidth - navBallRadius) {
+		const navBall = new Ball();
+		navBall.collidesWithWalls = false;
+		navBall.mass = 1;
+		navBall.isStatic = true;
+		navBall.position.x = navRect.x + currPos;
+		navBall.position.y = navRect.y + navBar.clientHeight / 2;
+		console.log(navBall.position);
+		navBall.radius = navBallRadius;
+		navBall.color = 'transparent';
+		engine.add(navBall);
+		navBalls.push(navBall);
+
+		currPos += navBallRadius;
+	}
+
 	// Add click event listeners to the color option button to change the color of each ball
 	document.querySelectorAll('.colorOption').forEach((option) => {
 		option.addEventListener('click', (e) => {
@@ -103,7 +129,7 @@ export function initHomePageBalls() {
 			const value = e.currentTarget.value;
 			const newColor = chakraColors[value];
 
-			navBalls.forEach((ball) => {
+			linkBalls.forEach((ball) => {
 				ball.color = newColor[600];
 			});
 
@@ -165,8 +191,8 @@ export function initHomePageBalls() {
 
 		a = window.innerWidth * window.innerHeight;
 
-		navBalls.forEach((navBall) => {
-			navBall.radius = Math.sqrt((bgBallPcnt * a) / (100 * Math.PI));
+		linkBalls.forEach((linkBall) => {
+			linkBall.radius = Math.sqrt((bgBallPcnt * a) / (100 * Math.PI));
 		});
 
 		throwBalls.forEach((throwBall, i) => {
@@ -177,6 +203,15 @@ export function initHomePageBalls() {
 		});
 
 		grabMeBall.radius = grabMeText.offsetWidth / Math.SQRT2;
+
+		const newNavRect = navBar.getBoundingClientRect();
+		navBalls.forEach((navBall, i) => {
+			navBall.radius = navBar.clientHeight / 3;
+			navBall.position.x =
+				newNavRect.x +
+				(navBar.clientWidth - navBall.radius) * ((i + 1) / navBalls.length);
+			navBall.position.y = newNavRect.y + navBar.clientHeight / 2;
+		});
 	};
 	window.addEventListener('resize', onResize);
 	engine.onStop = () => {
@@ -187,13 +222,13 @@ export function initHomePageBalls() {
 	let showThrowMe = false; // Whether to show the "THROW ME" text image
 
 	engine.setOnFrame(() => {
-		// Add images to the navBalls every frame
-		for (let i = 0; i < navBallImgs.length; i++) {
-			const offset = (navBalls[i].radius / Math.sqrt(2)) * (1 - i * 0.15); // Offset to fit square image in a circle
-			const x = navBalls[i].position.x - offset; // x coord for image
-			const y = navBalls[i].position.y - offset; // y coord for image
+		// Add images to the linkBalls every frame
+		for (let i = 0; i < linkBallImgs.length; i++) {
+			const offset = (linkBalls[i].radius / Math.sqrt(2)) * (1 - i * 0.15); // Offset to fit square image in a circle
+			const x = linkBalls[i].position.x - offset; // x coord for image
+			const y = linkBalls[i].position.y - offset; // y coord for image
 			const img = document.createElement('img');
-			img.src = '/images/ballLogos/' + navBallImgs[i];
+			img.src = '/images/ballLogos/' + linkBallImgs[i];
 			const canvas2D = canvas.getContext('2d');
 			canvas2D.drawImage(img, x, y, offset * 2, offset * 2);
 		}
@@ -213,7 +248,7 @@ export function initHomePageBalls() {
 				ball.position.distance(engine.mousePos) < ball.radius &&
 				!(settingsActive && engine.mousePos.x < 300)
 			) {
-				if (navBalls.includes(ball)) {
+				if (linkBalls.includes(ball)) {
 					document.body.style.cursor = 'pointer';
 				} else {
 					document.body.style.cursor = 'grab';
@@ -246,10 +281,10 @@ export function initHomePageBalls() {
 
 	engine.setOnObjectPress(() => {
 		if (!(settingsActive && engine.mousePos.x < 300)) {
-			if (engine.selectedObject === navBalls[0]) {
+			if (engine.selectedObject === linkBalls[0]) {
 				window.open('https://github.com/benrbowers', '_blank');
 				engine.selectedObject = null;
-			} else if (engine.selectedObject === navBalls[1]) {
+			} else if (engine.selectedObject === linkBalls[1]) {
 				window.open(
 					'https://www.linkedin.com/in/ben-bowers-07154417a/',
 					'_blank'
@@ -319,7 +354,6 @@ export function initHomePageBalls() {
 			grabMeIsActive = true;
 			const grabMeInterval = setInterval(() => {
 				if (grabMeIsActive) {
-					console.log(grabMeText.innerText);
 					if (showThrowMe) {
 						grabMeText.innerText = 'THROW ME';
 					} else if (grabMeText.innerText === '') {

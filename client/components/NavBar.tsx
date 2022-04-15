@@ -87,9 +87,9 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
 	};
 
 	const colorGradients = {
-		'#homeLink': '.200',
+		'#homeLink': '.300',
 		'#projectsLink': '.400',
-		'#contactLink': '.600',
+		'#contactLink': '.500',
 	};
 
 	return (
