@@ -223,10 +223,7 @@ const Projects = () => {
 									the Godot game engine. It recursively generates cube fractals
 									using different Minecraft textures.
 									<br /> <br />
-									<Link
-										color={colorTheme + '.400'}
-										href="./FractalGeneratorDemo/index.html"
-									>
+									<Link color={colorTheme + '.400'} href="./fractal/index.html">
 										Try it out{' '}
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 									</Link>
