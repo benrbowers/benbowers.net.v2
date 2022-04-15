@@ -3,14 +3,14 @@ module.exports = {
 		return {
 			beforeFiles: [
 				{
-					source: '/',
+					source: '/:path*',
 					has: [
 						{
 							type: 'host',
 							value: 'fractal.benbowers.net',
 						},
 					],
-					destination: '/public/FractalGeneratorDemo/index.html',
+					destination: '/:path*/public/FractalGeneratorDemo/index.html',
 				},
 			]
 		}
