@@ -161,6 +161,9 @@ export function initHomePageBalls() {
 				ball.color = newColor[shades[i % 3]];
 			});
 
+			titleBall.color = newColor[600];
+			subtitleBall.color = newColor[600];
+
 			grabMeBall.color = newColor[400];
 		});
 	});
