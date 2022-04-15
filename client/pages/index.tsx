@@ -2,7 +2,7 @@ import { Center } from '@chakra-ui/react';
 import Head from 'next/head';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Layout } from '../components/Layout';
-import { Engine } from '../scripts/bouncejs/Engine';
+import { Engine } from '../public/bouncejs/Engine';
 import { initHomePageBalls } from '../scripts/initHomePageBalls.js';
 
 const Index = () => {

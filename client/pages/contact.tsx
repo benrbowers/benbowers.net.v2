@@ -19,7 +19,7 @@ import Head from 'next/head';
 import React, { useContext, useEffect, useState } from 'react';
 import { InputField } from '../components/InputField';
 import { Layout } from '../components/Layout';
-import { Engine } from '../scripts/bouncejs/Engine';
+import { Engine } from '../public/bouncejs/Engine';
 import { initContactPageBall } from '../scripts/initContactPageBall.js';
 import { ThemeContext } from '../themes/theme';
 
