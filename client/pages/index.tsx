@@ -1,11 +1,9 @@
-import { Center, Flex, Heading, Text } from '@chakra-ui/react';
-import Theme from '@chakra-ui/theme';
+import { Center } from '@chakra-ui/react';
 import Head from 'next/head';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Layout } from '../components/Layout';
-import { ThemeContext } from '../themes/theme';
-import { initHomePageBalls } from '../scripts/initHomePageBalls.js';
 import { Engine } from '../scripts/bouncejs/Engine';
+import { initHomePageBalls } from '../scripts/initHomePageBalls.js';
 
 const Index = () => {
 	const [screenSize, getDimension] = useState({
@@ -19,7 +17,6 @@ const Index = () => {
 			height: window.innerHeight,
 		});
 	};
-	const { colorTheme } = useContext(ThemeContext);
 
 	let engine: Engine;
 
