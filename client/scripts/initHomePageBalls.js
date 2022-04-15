@@ -182,34 +182,6 @@ export function initHomePageBalls() {
 		settingsActive = false;
 	});
 
-	// document.querySelector('.smBallPcnt').addEventListener('keydown', (e) => {
-	// 	if (e.key === 'Enter') {
-	// 		if (isNaN(parseFloat(e.currentTarget.value))) {
-	// 			console.log(e.currentTarget.value, ' is not a number');
-	// 		} else {
-	// 			const p = parseFloat(e.currentTarget.value);
-	// 			throwBalls.forEach((ball) => {
-	// 				ball.radius =
-	// 					(Math.random() * Math.sqrt((p * a) / (100 * Math.PI))) / 2 +
-	// 					Math.sqrt((p * a) / (100 * Math.PI)) / 2;
-	// 			});
-	// 		}
-	// 	}
-	// });
-
-	// document.querySelector('.lgBallPcnt').addEventListener('keydown', (e) => {
-	// 	if (e.key === 'Enter') {
-	// 		if (isNaN(parseFloat(e.currentTarget.value))) {
-	// 			console.log(e.currentTarget.value, ' is not a number');
-	// 		} else {
-	// 			const p = parseFloat(e.currentTarget.value);
-	// 			navBalls.forEach((ball) => {
-	// 				ball.radius = Math.sqrt((p * a) / (100 * Math.PI));
-	// 			});
-	// 		}
-	// 	}
-	// });
-
 	const onResize = () => {
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
