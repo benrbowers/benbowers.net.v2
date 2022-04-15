@@ -38,8 +38,14 @@ const Index = () => {
 		};
 	}, []);
 
-	const textSize = useMemo(() => {
-		return Math.sqrt(screenSize.width * screenSize.height) * 0.1 + 'px';
+	const grabMeSize = useMemo(() => {
+		return Math.sqrt(screenSize.width * screenSize.height * 0.01) + 'px';
+	}, [screenSize]);
+	const titleSize = useMemo(() => {
+		return Math.sqrt(screenSize.width * screenSize.height * 0.07) + 'px';
+	}, [screenSize]);
+	const subtitleSize = useMemo(() => {
+		return Math.sqrt(screenSize.width * screenSize.height * 0.05) + 'px';
 	}, [screenSize]);
 
 	return (
@@ -58,44 +64,46 @@ const Index = () => {
 					style={{ position: 'fixed', zIndex: -1, top: 0 }}
 				></canvas>
 				<Center
-					width={textSize}
-					height={textSize}
+					width={grabMeSize}
+					height={grabMeSize}
 					fontSize={['md', 'xl', '2xl', '3xl', '4xl']}
 					textAlign="center"
 					color="white"
 					pos="fixed"
 					left={0}
 					top={0}
+					pointerEvents="none"
 					className="grabMeText"
 				></Center>
-				<Flex
-					flexDir="column"
-					alignItems="center"
-					bgColor="whiteAlpha.700"
-					width="fit-content"
-					mt="100px"
-					mx="auto"
+				<Center
+					width={titleSize}
+					height={titleSize}
+					fontSize={['3xl', '4xl', '5xl', '6xl', '7xl']}
+					textAlign="center"
+					color="white"
+					pos="fixed"
+					left={0}
+					top={0}
+					pointerEvents="none"
+					className="title"
 				>
-					<Heading color="gray.500" fontSize={['55px', '80px', '100px']}>
-						Hi, I'm Ben!
-					</Heading>
-					<Text
-						fontSize={['25px', '40px', '50px']}
-						color="gray.500"
-						textAlign="center"
-					>
-						A{' '}
-						<span
-							style={{
-								color:
-									Theme.colors[colorTheme as keyof typeof Theme.colors][400],
-							}}
-						>
-							web developer
-						</span>{' '}
-						with a passion for building.
-					</Text>
-				</Flex>
+					Hi, I'm Ben!
+				</Center>
+				<Center
+					width={subtitleSize}
+					height={subtitleSize}
+					fontSize={['sm', 'lg', 'xl', '2xl', '3xl']}
+					textAlign="center"
+					color="white"
+					pos="fixed"
+					left={0}
+					top={0}
+					p="5px"
+					pointerEvents="none"
+					className="subtitle"
+				>
+					A frontend developer looking for his first full time role.
+				</Center>
 			</Layout>
 		</>
 	);

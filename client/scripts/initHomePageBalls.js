@@ -54,12 +54,12 @@ export function initHomePageBalls() {
 	}
 
 	const smBallPcnt = 2; // Percentage of screen area ball will take up
-	const numThrowBalls = 10; // Number of throw balls to add to screen
+	const numThrowBalls = 9; // Number of throw balls to add to screen
 	const throwBalls = [];
 
 	// Generate balls for grabbing/throwing, add them to the engine, and put them in the `throwBalls` array
 	for (let i = 0; i < numThrowBalls; i++) {
-		const shades = [200, 400, 600];
+		const shades = [200, 300, 400];
 		const throwBall = new Ball();
 		throwBall.color = chakraColors[colorTheme][shades[i % 3]]; // Alternate between light and dark
 		throwBall.radius =
@@ -81,11 +81,11 @@ export function initHomePageBalls() {
 	}
 
 	//Create the ball that will show "GRAB ME" and then "THROW ME" if user doesn't throw a
-	/** @type HTMLParagraphElement */
+	/** @type HTMLDivElement */
 	const grabMeText = document.querySelector('.grabMeText');
 
 	const grabMeBall = new Ball();
-	grabMeBall.color = chakraColors[colorTheme][600];
+	grabMeBall.color = chakraColors[colorTheme][400];
 	grabMeBall.radius = grabMeText.offsetWidth / Math.SQRT2;
 	grabMeBall.mass = (4 / 3) * Math.PI * grabMeBall.radius ** 3;
 	grabMeBall.position.x = Math.random() * window.innerWidth;
@@ -94,6 +94,30 @@ export function initHomePageBalls() {
 	grabMeBall.velocity.y = Math.random() * -350 + 175;
 	engine.add(grabMeBall);
 	initNetMomentum += grabMeBall.mass * grabMeBall.velocity.magnitude;
+
+	// Ball with title text
+	/** @type HTMLDivElement */
+	const titleText = document.querySelector('.title');
+
+	const titleBall = new Ball();
+	titleBall.color = chakraColors[colorTheme][600];
+	titleBall.radius = titleText.offsetWidth / Math.SQRT2;
+	titleBall.mass = (4 / 3) * Math.PI * titleBall.radius ** 3;
+	titleBall.position.x = Math.random() * (window.innerWidth / 3);
+	titleBall.position.y = Math.random() * (window.innerHeight / 3);
+	engine.add(titleBall);
+
+	//Create the ball that will show "GRAB ME" and then "THROW ME" if user doesn't throw a
+	/** @type HTMLDivElement */
+	const subtitleText = document.querySelector('.subtitle');
+
+	const subtitleBall = new Ball();
+	subtitleBall.color = chakraColors[colorTheme][600];
+	subtitleBall.radius = subtitleText.offsetWidth / Math.SQRT2;
+	subtitleBall.mass = (4 / 3) * Math.PI * subtitleBall.radius ** 3;
+	subtitleBall.position.x = (2 + Math.random()) * (window.innerWidth / 3);
+	subtitleBall.position.y = (2 + Math.random()) * (window.innerHeight / 3);
+	engine.add(subtitleBall);
 
 	/** @type {HTMLDivElement} */
 	const navBar = document.querySelector('.navBar');
@@ -124,7 +148,7 @@ export function initHomePageBalls() {
 	// Add click event listeners to the color option button to change the color of each ball
 	document.querySelectorAll('.colorOption').forEach((option) => {
 		option.addEventListener('click', (e) => {
-			const shades = [200, 400, 600];
+			const shades = [200, 300, 400];
 
 			const value = e.currentTarget.value;
 			const newColor = chakraColors[value];
@@ -137,7 +161,7 @@ export function initHomePageBalls() {
 				ball.color = newColor[shades[i % 3]];
 			});
 
-			grabMeBall.color = newColor[600];
+			grabMeBall.color = newColor[400];
 		});
 	});
 
@@ -203,6 +227,8 @@ export function initHomePageBalls() {
 		});
 
 		grabMeBall.radius = grabMeText.offsetWidth / Math.SQRT2;
+		titleBall.radius = titleText.offsetWidth / Math.SQRT2;
+		subtitleBall.radius = subtitleText.offsetWidth / Math.SQRT2;
 
 		const newNavRect = navBar.getBoundingClientRect();
 		navBalls.forEach((navBall, i) => {
@@ -220,6 +246,8 @@ export function initHomePageBalls() {
 
 	let grabMeIsActive = false; // Whether `grabMeBall` needs to display text
 	let showThrowMe = false; // Whether to show the "THROW ME" text image
+
+	let dragIsActive = false; // Whether drag is currently applied
 
 	engine.setOnFrame(() => {
 		// Add images to the linkBalls every frame
@@ -239,6 +267,20 @@ export function initHomePageBalls() {
 			const y = grabMeBall.position.y - grabMeBall.radius / Math.SQRT2;
 
 			grabMeText.style.transform = `translateX(${x}px) translateY(${y}px)`;
+		}
+
+		{
+			const x = titleBall.position.x - titleBall.radius / Math.SQRT2;
+			const y = titleBall.position.y - titleBall.radius / Math.SQRT2;
+
+			titleText.style.transform = `translateX(${x}px) translateY(${y}px)`;
+		}
+
+		{
+			const x = subtitleBall.position.x - subtitleBall.radius / Math.SQRT2;
+			const y = subtitleBall.position.y - subtitleBall.radius / Math.SQRT2;
+
+			subtitleText.style.transform = `translateX(${x}px) translateY(${y}px)`;
 		}
 
 		// Set mouse cursor based on which ball user is hovering or grabbing
@@ -268,14 +310,16 @@ export function initHomePageBalls() {
 			currentNetMomentum += ball.mass * ball.velocity.magnitude;
 		});
 
-		if (currentNetMomentum > initNetMomentum) {
+		if (currentNetMomentum > initNetMomentum && !dragIsActive) {
 			engine.physObjects.forEach((ball) => {
 				ball.drag = 0.3;
 			});
-		} else {
+			dragIsActive = true;
+		} else if (dragIsActive) {
 			engine.physObjects.forEach((ball) => {
 				ball.drag = 0.0;
 			});
+			dragIsActive = false;
 		}
 	});
 
@@ -347,7 +391,7 @@ export function initHomePageBalls() {
 	engine.start();
 	console.log('engine started');
 
-	const grabMeDelay = 5000; // How long to wait to show "GRAB ME" text if user hasn't thrown a ball
+	const grabMeDelay = 15000; // How long to wait to show "GRAB ME" text if user hasn't thrown a ball
 	const grabMeFlashTime = 500; // How fast to flash "GRAB ME" text
 	setTimeout(() => {
 		if (!userHasThrown) {
