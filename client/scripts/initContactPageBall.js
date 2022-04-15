@@ -1,5 +1,5 @@
-import { Engine } from './bouncejs/Engine.js';
-import { Ball } from './bouncejs/Ball.js';
+import { Engine } from '../public/bouncejs/Engine.js';
+import { Ball } from '../public/bouncejs/Ball.js';
 import chakraColors from './chakraColors.js';
 
 export function initContactPageBall() {

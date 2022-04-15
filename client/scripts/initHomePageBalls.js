@@ -1,6 +1,6 @@
-import { Engine } from './bouncejs/Engine.js';
-import { Ball } from './bouncejs/Ball.js';
-import { Vector2 } from './bouncejs/Vector2.js';
+import { Engine } from '../public/bouncejs/Engine.js';
+import { Ball } from '../public/bouncejs/Ball.js';
+import { Vector2 } from '../public/bouncejs/Vector2.js';
 import chakraColors from './chakraColors.js';
 
 export function initHomePageBalls() {
