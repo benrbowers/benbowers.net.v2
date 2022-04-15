@@ -10,7 +10,7 @@ module.exports = {
 							value: 'fractal.benbowers.net',
 						},
 					],
-					destination: '/:path*/public/FractalGeneratorDemo/index.html',
+					destination: '/FractalGeneratorDemo/:path*',
 				},
 			]
 		}
