@@ -88,6 +88,7 @@ const Projects = () => {
 					gridGap="40px"
 					my="40px"
 					cursor="default"
+					px="10px"
 				>
 					<ProjectCard
 						tags={['JavaScript']}
