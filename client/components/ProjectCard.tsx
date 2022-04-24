@@ -1,9 +1,9 @@
 import { Box } from '@chakra-ui/react';
 import NextImg from 'next/image';
 import React, { forwardRef } from 'react';
-import { FlipCard, FlipCardProps } from './FlipCard';
 import styled from 'styled-components';
 import { Tag } from '../types/Tag';
+import { FlipCard, FlipCardProps } from './FlipCard';
 
 export interface ProjectCardProps extends FlipCardProps {
 	tags?: Tag[];

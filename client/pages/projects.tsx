@@ -1,5 +1,6 @@
-import { Flex, Link, Text, TextProps } from '@chakra-ui/react';
 import { ArrowRightIcon } from '@chakra-ui/icons';
+import { Flex, Link, Text, TextProps } from '@chakra-ui/react';
+import Head from 'next/head';
 import React, { useContext, useRef, useState } from 'react';
 import { AnimateCards } from '../components/AnimateCards';
 import { FlipCardBack } from '../components/FlipCardBack';
@@ -7,9 +8,8 @@ import { FlipCardFront } from '../components/FlipCardFront';
 import { Layout } from '../components/Layout';
 import { ProjectCard, ProjectCardProps } from '../components/ProjectCard';
 import { TagButton, TagButtonProps } from '../components/TagButton';
-import { Tag } from '../types/Tag';
 import { ThemeContext } from '../themes/theme';
-import Head from 'next/head';
+import { Tag } from '../types/Tag';
 
 const projectProps: Omit<ProjectCardProps, 'ref'> = {
 	w: '250px',

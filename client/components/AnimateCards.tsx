@@ -1,5 +1,5 @@
-import React, { useEffect, ReactElement } from 'react';
 import { Grid, GridProps } from '@chakra-ui/react';
+import React, { ReactElement, useEffect } from 'react';
 import { Tag } from '../types/Tag';
 import { ProjectCardProps } from './ProjectCard';
 

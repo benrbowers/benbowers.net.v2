@@ -1,5 +1,5 @@
 import { Box, BoxProps } from '@chakra-ui/react';
-import React, { useState, forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import styled from 'styled-components';
 import { FlipCardInner } from './FlipCardInner';
 
