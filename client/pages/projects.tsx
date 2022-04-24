@@ -20,7 +20,7 @@ const projectProps: Omit<ProjectCardProps, 'ref'> = {
 	doesFlipOnTap: true,
 	iconSize: 40,
 	innerStyle: {
-		boxShadow: '1px 1px 7px 1px darkgray',
+		boxShadow: '1px 1px 5px 1px darkgray',
 	},
 };
 
@@ -87,6 +87,7 @@ const Projects = () => {
 					justifyContent="center"
 					gridGap="40px"
 					my="40px"
+					cursor="default"
 				>
 					<ProjectCard
 						tags={['JavaScript']}

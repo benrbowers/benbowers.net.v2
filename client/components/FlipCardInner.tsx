@@ -26,19 +26,19 @@ const UnstyledFlipCardInner: React.FC<FlipCardInnerProps> = ({
 const flipF2B = keyframes`
 	0% {
         transform: rotateY(0deg) translateZ(0px);
-		box-shadow: 1px 1px 7px 1px darkgray;
+		box-shadow: 1px 1px 5px 1px darkgray;
     }
     10% {
         transform: rotateY(0deg) translateZ(25px);
-		box-shadow: 1px 1px 30px 1px darkgray;
+		box-shadow: 1px 1px 20px 1px darkgray;
     }
     90% {
         transform: rotateY(180deg) translateZ(-10px);
-		box-shadow: -1px 1px 15px 1px darkgray;
+		box-shadow: -1px 1px 10px 1px darkgray;
     }
     100% {
         transform: rotateY(180deg) translateZ(0px);
-		box-shadow: -1px 1px 7px 1px darkgray;
+		box-shadow: -1px 1px 5px 1px darkgray;
     }
 `;
 
@@ -46,19 +46,19 @@ const flipF2B = keyframes`
 const flipB2F = keyframes`
 	0% {
       transform: rotateY(180deg) translateZ(0px);
-	  box-shadow: -1px 1px 7px 1px darkgray;
+	  box-shadow: -1px 1px 5px 1px darkgray;
     }
     10% {
       transform: rotateY(180deg) translateZ(-25px);
-	  box-shadow: -1px 1px 30px 1px darkgray;
+	  box-shadow: -1px 1px 20px 1px darkgray;
     }
     90% {
       transform: rotateY(360deg) translateZ(10px);
-	  box-shadow: 1px 1px 15px 1px darkgray;
+	  box-shadow: 1px 1px 10px 1px darkgray;
     }
     100% {
       transform: rotateY(360deg) translateZ(0px);
-	  box-shadow: 1px 1px 7px 1px darkgray;
+	  box-shadow: 1px 1px 5px 1px darkgray;
     }
 `;
 
