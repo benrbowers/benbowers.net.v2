@@ -344,6 +344,7 @@ export function initHomePageBalls() {
 					}
 
 					userHasThrown = true;
+					grabMeText.innerText = '';
 					grabMeIsActive = false;
 
 					console.log('User threw');
