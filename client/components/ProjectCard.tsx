@@ -7,6 +7,8 @@ import { Tag } from '../types/Tag';
 
 export interface ProjectCardProps extends FlipCardProps {
 	tags?: Tag[];
+	title?: string;
+	subtitle?: string;
 	iconSize?: number;
 	innerStyle?: React.CSSProperties;
 }

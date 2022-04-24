@@ -17,5 +17,9 @@ export const FlipCardFront: React.FC<FlipCardFrontProps> = ({
 	children,
 	...props
 }) => {
-	return <StyledBox {...props}>{children}</StyledBox>;
+	return (
+		<StyledBox {...props} px="2">
+			{children}
+		</StyledBox>
+	);
 };

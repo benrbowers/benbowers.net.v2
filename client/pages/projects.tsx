@@ -1,4 +1,4 @@
-import { Center, Flex, Link, Text, TextProps } from '@chakra-ui/react';
+import { Flex, Link, Text, TextProps } from '@chakra-ui/react';
 import { ArrowRightIcon } from '@chakra-ui/icons';
 import React, { useContext, useRef, useState } from 'react';
 import { AnimateCards } from '../components/AnimateCards';
@@ -28,6 +28,15 @@ const projTitleProps: TextProps = {
 	color: 'gray.500',
 	fontSize: 'xx-large',
 	textAlign: 'center',
+	lineHeight: '8',
+	pb: '4',
+};
+
+const projSubitleProps: TextProps = {
+	color: 'gray.500',
+	fontSize: 'large',
+	textAlign: 'center',
+	lineHeight: '5',
 };
 
 const Projects = () => {
@@ -84,18 +93,16 @@ const Projects = () => {
 						ref={useRef(null)}
 						{...projectProps}
 					>
-						<FlipCardFront
-						// bgImg={'url("/static/physicsFun.svg")'}
-						// bgRepeat="no-repeat"
-						// bgSize="80%"
-						// bgPos="center"
-						>
-							<Center h="100%" borderRadius="inherit" bgColor="whiteAlpha.500">
+						<FlipCardFront>
+							<Flex flexDir="column" justifyContent="start" h="100%" pt={'12'}>
 								<Text {...projTitleProps}>BounceJS</Text>
-							</Center>
+								<Text {...projSubitleProps}>
+									A 2D "bouncy ball" physics library
+								</Text>
+							</Flex>
 						</FlipCardFront>
 						<FlipCardBack>
-							<Center h="100%">
+							<Flex flexDir="column" justifyContent="center" h="100%">
 								<Text m="10px" color="gray.600">
 									BounceJS is a small physics library made with vanilla
 									JavaScript that animates circles on an HTML canvas. You saw it
@@ -116,7 +123,7 @@ const Projects = () => {
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 									</Link>
 								</Text>
-							</Center>
+							</Flex>
 						</FlipCardBack>
 					</ProjectCard>
 
@@ -126,15 +133,19 @@ const Projects = () => {
 						{...projectProps}
 					>
 						<FlipCardFront>
-							<Center h="100%">
+							<Flex flexDir="column" justifyContent="start" h="100%" pt={'12'}>
 								<Text {...projTitleProps}>Sticky Notes</Text>
-							</Center>
+								<Text {...projSubitleProps}>
+									A drag and drop note taking app
+								</Text>
+							</Flex>
 						</FlipCardFront>
 						<FlipCardBack>
-							<Center h="100%">
+							<Flex flexDir="column" justifyContent="center" h="100%">
 								<Text m="10px" color="gray.600">
 									Sticky Notes is a note taking app made with vanilla
-									JavaScript, HTML, and CSS.
+									JavaScript, HTML, and CSS. It features color changing, drag
+									and drop, and reorder animations.
 									<br /> <br />
 									<Link
 										color={colorTheme + '.400'}
@@ -152,7 +163,7 @@ const Projects = () => {
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 									</Link>
 								</Text>
-							</Center>
+							</Flex>
 						</FlipCardBack>
 					</ProjectCard>
 
@@ -162,12 +173,13 @@ const Projects = () => {
 						{...projectProps}
 					>
 						<FlipCardFront>
-							<Center h="100%">
+							<Flex flexDir="column" justifyContent="start" h="100%" pt={'12'}>
 								<Text {...projTitleProps}>Chore Board</Text>
-							</Center>
+								<Text {...projSubitleProps}>A local hosted chore board</Text>
+							</Flex>
 						</FlipCardFront>
 						<FlipCardBack>
-							<Center h="100%" w="100%">
+							<Flex flexDir="column" justifyContent="center" h="100%" w="100%">
 								<Text m="10px" color="gray.600">
 									This is a chore board I built for my roommates and I. It was
 									built with HTML, CSS, JS, and php. It is hosted on a raspberry
@@ -182,7 +194,7 @@ const Projects = () => {
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 									</Link>
 								</Text>
-							</Center>
+							</Flex>
 						</FlipCardBack>
 					</ProjectCard>
 
@@ -192,15 +204,18 @@ const Projects = () => {
 						{...projectProps}
 					>
 						<FlipCardFront>
-							<Center h="100%">
+							<Flex flexDir="column" justifyContent="start" h="100%" pt={'12'}>
 								<Text {...projTitleProps}>This Site</Text>
-							</Center>
+								<Text {...projSubitleProps}>
+									The website you're on right now
+								</Text>
+							</Flex>
 						</FlipCardFront>
 						<FlipCardBack>
-							<Center h="100%">
+							<Flex flexDir="column" justifyContent="center" h="100%">
 								<Text m="10px" color="gray.600">
 									The website you're viewing right now was made with TypeScript,
-									NextJS, and ReactJS
+									NextJS, ReactJS, and ChakraUI.
 									<br /> <br />
 									<Link
 										color={colorTheme + '.400'}
@@ -210,7 +225,7 @@ const Projects = () => {
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.300'} />
 									</Link>
 								</Text>
-							</Center>
+							</Flex>
 						</FlipCardBack>
 					</ProjectCard>
 
@@ -220,12 +235,13 @@ const Projects = () => {
 						{...projectProps}
 					>
 						<FlipCardFront>
-							<Center h="100%">
-								<Text {...projTitleProps}>Cube Fractal Generator</Text>
-							</Center>
+							<Flex flexDir="column" justifyContent="start" h="100%" pt={'12'}>
+								<Text {...projTitleProps}>Fractal Generator</Text>
+								<Text {...projSubitleProps}>A minecraft prototyping tool</Text>
+							</Flex>
 						</FlipCardFront>
 						<FlipCardBack>
-							<Center h="100%" w="100%">
+							<Flex h="100%" w="100%">
 								<Text m="10px" color="gray.600">
 									This was built with GDScript (similar to Python) and C++ in
 									the Godot game engine. It recursively generates cube fractals
@@ -244,7 +260,7 @@ const Projects = () => {
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
 									</Link>
 								</Text>
-							</Center>
+							</Flex>
 						</FlipCardBack>
 					</ProjectCard>
 				</AnimateCards>
