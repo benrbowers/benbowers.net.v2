@@ -1,6 +1,3 @@
-[submodule "client/scripts/bouncejs"]
-	path = client/scripts/bouncejs
-	url = https://github.com/benrbowers/bouncejs.git
 [submodule "client/public/sticky-notes"]
 	path = client/public/sticky-notes
 	url = https://github.com/benrbowers/sticky-notes.git
