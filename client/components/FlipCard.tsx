@@ -46,7 +46,9 @@ export const FlipCard = forwardRef<HTMLDivElement, FlipCardProps>(
 		};
 
 		const flipOnTap = () => {
-			setFlipped(!flipped);
+			if (flipped === undefined || !flipped) {
+				setFlipped(true);
+			}
 		};
 
 		return (
