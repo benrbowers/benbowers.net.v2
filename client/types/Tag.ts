@@ -7,4 +7,5 @@ export type Tag =
 	| 'PHP'
 	| 'GDScript'
 	| 'NextJS'
-	| 'Cpp';
+	| 'Cpp'
+	| 'MongoDB';

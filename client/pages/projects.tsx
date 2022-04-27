@@ -79,6 +79,7 @@ const Projects = () => {
 					<TagButton tag="GDScript" {...tagButtonProps} />
 					<TagButton tag="Cpp" {...tagButtonProps} />
 					<TagButton tag="PHP" {...tagButtonProps} />
+					<TagButton tag="MongoDB" {...tagButtonProps} />
 				</Flex>
 				<AnimateCards
 					selectedTags={selectedTags}
@@ -90,6 +91,69 @@ const Projects = () => {
 					cursor="default"
 					px="10px"
 				>
+					<ProjectCard
+						tags={['TypeScript', 'NextJS', 'React']}
+						ref={useRef(null)}
+						{...projectProps}
+					>
+						<FlipCardFront>
+							<Flex flexDir="column" justifyContent="start" h="100%" pt={'12'}>
+								<Text {...projTitleProps}>This Site</Text>
+								<Text {...projSubitleProps}>
+									The website you're on right now
+								</Text>
+							</Flex>
+						</FlipCardFront>
+						<FlipCardBack>
+							<Flex flexDir="column" justifyContent="center" h="100%">
+								<Text m="10px" color="gray.600">
+									The website you're viewing right now was made with TypeScript,
+									NextJS, ReactJS, and ChakraUI.
+									<br /> <br />
+									<Link
+										color={colorTheme + '.400'}
+										href="https://github.com/benrbowers/benbowers.net.v2"
+									>
+										See the code{' '}
+										<ArrowRightIcon w={3} h={3} color={colorTheme + '.300'} />
+									</Link>
+								</Text>
+							</Flex>
+						</FlipCardBack>
+					</ProjectCard>
+
+					<ProjectCard
+						tags={['TypeScript', 'MongoDB']}
+						ref={useRef(null)}
+						{...projectProps}
+					>
+						<FlipCardFront>
+							<Flex flexDir="column" justifyContent="start" h="100%" pt={'12'}>
+								<Text {...projTitleProps}>Introductius</Text>
+								<Text {...projSubitleProps}>
+									A discord bot for voice channel introductions
+								</Text>
+							</Flex>
+						</FlipCardFront>
+						<FlipCardBack>
+							<Flex flexDir="column" justifyContent="center" h="100%">
+								<Text m="10px" color="gray.600">
+									This bot introduces users who enter a voice channel using a
+									custom YouTube Clip. It uses DiscordJS and ErelaJS to interact
+									with the Discord API. User data is stored using MongoDB.
+									<br /> <br />
+									<Link
+										color={colorTheme + '.400'}
+										href="https://github.com/benrbowers/introductius"
+									>
+										Get introduced{' '}
+										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
+									</Link>
+								</Text>
+							</Flex>
+						</FlipCardBack>
+					</ProjectCard>
+
 					<ProjectCard
 						tags={['JavaScript']}
 						ref={useRef(null)}
@@ -194,37 +258,6 @@ const Projects = () => {
 									>
 										Check it out here{' '}
 										<ArrowRightIcon w={3} h={3} color={colorTheme + '.400'} />
-									</Link>
-								</Text>
-							</Flex>
-						</FlipCardBack>
-					</ProjectCard>
-
-					<ProjectCard
-						tags={['TypeScript', 'NextJS', 'React']}
-						ref={useRef(null)}
-						{...projectProps}
-					>
-						<FlipCardFront>
-							<Flex flexDir="column" justifyContent="start" h="100%" pt={'12'}>
-								<Text {...projTitleProps}>This Site</Text>
-								<Text {...projSubitleProps}>
-									The website you're on right now
-								</Text>
-							</Flex>
-						</FlipCardFront>
-						<FlipCardBack>
-							<Flex flexDir="column" justifyContent="center" h="100%">
-								<Text m="10px" color="gray.600">
-									The website you're viewing right now was made with TypeScript,
-									NextJS, ReactJS, and ChakraUI.
-									<br /> <br />
-									<Link
-										color={colorTheme + '.400'}
-										href="https://github.com/benrbowers/benbowers.net.v2"
-									>
-										Here's the code{' '}
-										<ArrowRightIcon w={3} h={3} color={colorTheme + '.300'} />
 									</Link>
 								</Text>
 							</Flex>
