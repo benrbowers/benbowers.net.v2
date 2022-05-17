@@ -99,7 +99,7 @@ const Index = () => {
 					pointerEvents="none"
 					className="subtitle"
 				>
-					A frontend developer looking for his first full time role.
+					A fullstack developer looking for his first full time role.
 				</Center>
 			</Layout>
 		</>
